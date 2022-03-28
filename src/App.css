@@ -1,40 +1,40 @@
 @import '~antd/dist/antd.css';
 
-.App {
-  text-align: center;
+.iptv-search {
+    margin-top: 16px;
+    margin-left: 16px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+@media screen and (max-width: 1200px) {
+    /* lg 1200px */
+    .left-search {
+        margin-left: 45px;
+    }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.logo {
+    float: left;
+    width: 100px;
+    height: 30px;
+    margin: 10px 25px 10px 0;
+    background: rgba(255, 255, 255, 0.3);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+/*.ant-row-rtl .logo {*/
+/*    float: right;*/
+/*    margin: 16px 0 16px 24px;*/
+/*}*/
+
+/*#components-layout-demo-responsive .logo {*/
+/*    height: 32px;*/
+/*    margin: 16px;*/
+/*    background: rgba(255, 255, 255, 0.2);*/
+/*}*/
+
+.site-layout-sub-header-background {
+    background: #fff;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.site-layout-background {
+    background: #fff;
 }
