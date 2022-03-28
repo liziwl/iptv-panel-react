@@ -10,7 +10,18 @@ class Video extends PureComponent {
                     height={this.props.height}
                     pip
                     controls
-                    config={{file: {forceHLS: true}}}
+                    config={{
+                        file: {
+                            forceHLS: true,
+                            // hlsOptions: {
+                            //     maxMaxBufferLength: 5,
+                            //     liveSyncDuration: 2,
+                            //     liveMaxLatencyDuration: 3,
+                            //     backBufferLength: 30,
+                            //     nudgeMaxRetry: 10,
+                            // },
+                        },
+                    }}
                     url={this.props.url}
                 />
             </div>
