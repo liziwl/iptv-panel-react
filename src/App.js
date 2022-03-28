@@ -7,7 +7,7 @@ import Video from "./Video";
 const App = () => (
     <div className="App">
         <Button type="primary">Button</Button>
-        <Video url={"//iptv.tsinghua.edu.cn/hls/cctv13hd.m3u8"}/>
+        <Video url={"//iptv.liziwl.cn/hls/cctv13hd.m3u8"}/>
     </div>
 );
 
