@@ -64,7 +64,10 @@ const App = () => (
 
                     <Content style={{margin: '16px 16px 0'}}>
                         <div className="site-layout-background" style={{padding: 24, minHeight: 360}}>
-                            <Video url={"//iptv.liziwl.cn/hls/cctv13hd.m3u8"}/>
+                            <Video
+                                url={"//iptv.liziwl.cn/hls/cctv13hd.m3u8"}
+                                width={720}
+                            />
                         </div>
                     </Content>
                     <Footer style={{textAlign: 'center'}}>
