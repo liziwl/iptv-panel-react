@@ -1,11 +1,12 @@
 import React from 'react';
-import {Button, Drawer, Input, Layout, List, Menu, Space} from 'antd';
+import {Button, Drawer, Input, Layout, List, Menu, Space, Typography} from 'antd';
 import {VideoCameraOutlined} from '@ant-design/icons';
 import './App.css';
 import Video from "./Video";
 import axios from "axios";
 
 const {Header, Content, Footer, Sider} = Layout;
+const {Title} = Typography;
 
 const {Search} = Input;
 
@@ -21,6 +22,7 @@ class App extends React.Component {
 
     state = {
         url: this.urlFormat('cctv1hd'),
+        liveTitle: "CCTV-1高清",
         openKey: '高清频道',
         channels: {},
         drawerVisible: false,
@@ -83,7 +85,8 @@ class App extends React.Component {
     handleSelect = e => {
         this.setState({
             openKey: e.key,
-            url: this.urlFormat(this.state.channels[e.key][0]['Vid'])
+            url: this.urlFormat(this.state.channels[e.key][0]['Vid']),
+            liveTitle: this.state.channels[e.key][0]['Name']
         });
         if (this.state.collapsedType === 'clickTrigger') {
             this.setState({collapsed: true});
@@ -168,7 +171,10 @@ class App extends React.Component {
                                                                 textAlign: 'left'
                                                             }}
                                                             onClick={() => {
-                                                                this.setState({url: this.urlFormat(item.Vid)});
+                                                                this.setState({
+                                                                    url: this.urlFormat(item.Vid),
+                                                                    liveTitle: item.Name
+                                                                });
                                                                 this.onCloseDrawer();
                                                             }}
                                                     >{item.Name}</Button>
@@ -205,23 +211,30 @@ class App extends React.Component {
                                                                     textAlign: 'left'
                                                                 }}
                                                                 onClick={() => {
-                                                                    this.setState({url: this.urlFormat(item.Vid)});
+                                                                    this.setState({
+                                                                        url: this.urlFormat(item.Vid),
+                                                                        liveTitle: item.Name
+                                                                    });
                                                                 }}
                                                         >{item.Name}</Button>
                                                     </List.Item>
                                                 )}
                                             />
                                         </div>
-                                        <Video
-                                            url={this.state.url}
-                                            width={'auto'}
-                                            height={'70vh'}
-                                        />
+                                        <Space direction="vertical" size="small">
+                                            <Title level={3}>正在播放：{this.state.liveTitle}</Title>
+                                            <Video
+                                                url={this.state.url}
+                                                width={'auto'}
+                                                height={'calc(70vh - 36pt)'}
+                                            />
+                                        </Space>
                                     </Space>
                                     <Space size="small"
                                            direction="vertical" style={{
                                         width: '100%', justifyContent: 'center', display: this.state.showMobile
                                     }}>
+                                        <Title level={3}>正在播放：{this.state.liveTitle}</Title>
                                         <Video
                                             url={this.state.url}
                                             width={'auto'}
