@@ -26,7 +26,9 @@ class App extends React.Component {
         drawerVisible: false,
         placement: 'right',
         showDesktop: true,
-        showMobile: false
+        showMobile: false,
+        collapsed: true,
+        collapsedType: '',
     };
 
     showDrawer = () => {
@@ -83,6 +85,9 @@ class App extends React.Component {
             openKey: e.key,
             url: this.urlFormat(this.state.channels[e.key][0]['Vid'])
         });
+        if (this.state.collapsedType === 'clickTrigger') {
+            this.setState({collapsed: true});
+        }
     };
 
     render() {
@@ -94,11 +99,16 @@ class App extends React.Component {
                         <Sider
                             breakpoint="lg"
                             collapsedWidth="0"
+                            collapsed={this.state.collapsed}
                             onBreakpoint={broken => {
-                                console.log('broken', broken);
                                 this.handleMobileMode(broken);
+                                console.log('broken', broken);
                             }}
                             onCollapse={(collapsed, type) => {
+                                this.setState({
+                                    collapsed: collapsed,
+                                    collapsedType: type
+                                })
                                 console.log(collapsed, type);
                             }}
                         >
