@@ -1,11 +1,8 @@
 import React from 'react';
-import {Layout, Menu} from 'antd';
-import {Input} from 'antd';
+import {Button, Drawer, Input, Layout, List, Menu, Space} from 'antd';
 import {VideoCameraOutlined} from '@ant-design/icons';
 import './App.css';
 import Video from "./Video";
-import {List} from 'antd';
-import {Button, Space} from 'antd';
 import axios from "axios";
 
 const {Header, Content, Footer, Sider} = Layout;
@@ -20,13 +17,42 @@ class App extends React.Component {
 
     urlFormat = key => {
         return `//iptv.liziwl.cn/hls/${key}.m3u8`
-
     };
 
     state = {
         url: this.urlFormat('cctv1hd'),
         openKey: '高清频道',
         channels: {},
+        drawerVisible: false,
+        placement: 'right',
+        showDesktop: true,
+        showMobile: false
+    };
+
+    showDrawer = () => {
+        this.setState({
+            drawerVisible: true,
+        });
+    };
+
+    onCloseDrawer = () => {
+        this.setState({
+            drawerVisible: false,
+        });
+    };
+
+    handleMobileMode = mode => {
+        if (mode) {
+            this.setState({
+                showDesktop: 'none',
+                showMobile: true
+            });
+        } else {
+            this.setState({
+                showDesktop: true,
+                showMobile: 'none'
+            });
+        }
     };
 
 
@@ -60,6 +86,7 @@ class App extends React.Component {
     };
 
     render() {
+        const {placement, drawerVisible} = this.state;
         return (
             <div className="App">
                 <div>
@@ -68,7 +95,8 @@ class App extends React.Component {
                             breakpoint="lg"
                             collapsedWidth="0"
                             onBreakpoint={broken => {
-                                console.log(broken);
+                                console.log('broken', broken);
+                                this.handleMobileMode(broken);
                             }}
                             onCollapse={(collapsed, type) => {
                                 console.log(collapsed, type);
@@ -112,8 +140,34 @@ class App extends React.Component {
 
                             <Content style={{margin: '16px 16px 0'}}>
                                 <div className="site-layout-background" style={{padding: 24, minHeight: 360}}>
+                                    <Drawer
+                                        title={`频道切换 - ${this.state.openKey}`}
+                                        placement={placement}
+                                        onClose={this.onCloseDrawer}
+                                        visible={drawerVisible}
+                                    >
+                                        <List
+                                            dataSource={this.state.channels[this.state.openKey]}
+                                            renderItem={item => (
+                                                <List.Item>
+                                                    <Button type="text"
+                                                            style={{
+                                                                width: '100%',
+                                                                textAlign: 'left'
+                                                            }}
+                                                            onClick={() => {
+                                                                this.setState({url: this.urlFormat(item.Vid)});
+                                                                this.onCloseDrawer();
+                                                            }}
+                                                    >{item.Name}</Button>
+                                                </List.Item>
+                                            )}
+                                        />
+                                    </Drawer>
                                     <Space size="large"
-                                           direction="horizontal" style={{width: '100%', justifyContent: 'center'}}>
+                                           direction="horizontal" style={{
+                                        width: '100%', justifyContent: 'center', display: this.state.showDesktop
+                                    }}>
                                         <div
                                             id="scrollableDiv"
                                             style={{
@@ -152,6 +206,20 @@ class App extends React.Component {
                                             height={'70vh'}
                                         />
                                     </Space>
+                                    <Space size="small"
+                                           direction="vertical" style={{
+                                        width: '100%', justifyContent: 'center', display: this.state.showMobile
+                                    }}>
+                                        <Video
+                                            url={this.state.url}
+                                            width={'auto'}
+                                            height={'70vh'}
+                                        />
+                                        <Button type="primary" size="large"
+                                                style={{width: '100%'}}
+                                                onClick={this.showDrawer}>切换频道</Button>
+                                    </Space>
+
                                 </div>
                             </Content>
                             <Footer style={{textAlign: 'center'}}>
