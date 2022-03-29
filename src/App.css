@@ -20,6 +20,16 @@
     background: rgba(255, 255, 255, 0.3);
 }
 
+.ant-list-bordered .ant-list-item{
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
+li.ant-list-item{
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
 /*.ant-row-rtl .logo {*/
 /*    float: right;*/
 /*    margin: 16px 0 16px 24px;*/

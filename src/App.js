@@ -17,8 +17,14 @@ const onSearch = searchValue => {
 };
 
 class App extends React.Component {
+
+    urlFormat = key => {
+        return `//iptv.liziwl.cn/hls/${key}.m3u8`
+
+    };
+
     state = {
-        url: '//iptv.liziwl.cn/hls/cctv1hd.m3u8',
+        url: this.urlFormat('cctv1hd'),
         openKey: '高清频道',
         channels: {},
     };
@@ -44,10 +50,13 @@ class App extends React.Component {
                     // console.log(this.state.channels);
                 }
             );
-    }
+    };
 
     handleSelect = e => {
-        this.setState({openKey: e.key});
+        this.setState({
+            openKey: e.key,
+            url: this.urlFormat(this.state.channels[e.key][0]['Vid'])
+        });
     };
 
     render() {
@@ -103,11 +112,12 @@ class App extends React.Component {
 
                             <Content style={{margin: '16px 16px 0'}}>
                                 <div className="site-layout-background" style={{padding: 24, minHeight: 360}}>
-                                    <Space>
+                                    <Space size="large"
+                                           direction="horizontal" style={{width: '100%', justifyContent: 'center'}}>
                                         <div
                                             id="scrollableDiv"
                                             style={{
-                                                height: 500,
+                                                height: '70vh',
                                                 overflow: 'auto',
                                                 // padding: '0 16px',
                                                 // border: '1px solid rgba(140, 140, 140, 0.35)',
@@ -115,17 +125,21 @@ class App extends React.Component {
                                         >
                                             <List
                                                 header={<div style={{
-                                                    paddingLeft: '16px',
                                                     fontWeight: 'bold',
-                                                    fontSize: 'larger'
+                                                    fontSize: 'larger',
+                                                    minWidth: '180px'
                                                 }}>{this.state.openKey}</div>}
                                                 bordered
                                                 dataSource={this.state.channels[this.state.openKey]}
                                                 renderItem={item => (
                                                     <List.Item>
                                                         <Button type="text"
+                                                                style={{
+                                                                    width: '100%',
+                                                                    textAlign: 'left'
+                                                                }}
                                                                 onClick={() => {
-                                                                    this.setState({url: `//iptv.liziwl.cn/hls/${item.Vid}.m3u8`});
+                                                                    this.setState({url: this.urlFormat(item.Vid)});
                                                                 }}
                                                         >{item.Name}</Button>
                                                     </List.Item>
@@ -135,7 +149,7 @@ class App extends React.Component {
                                         <Video
                                             url={this.state.url}
                                             width={'auto'}
-                                            height={500}
+                                            height={'70vh'}
                                         />
                                     </Space>
                                 </div>
