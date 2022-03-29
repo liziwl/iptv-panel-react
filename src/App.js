@@ -213,7 +213,6 @@ class App extends React.Component {
                                         <Video
                                             url={this.state.url}
                                             width={'auto'}
-                                            height={'70vh'}
                                         />
                                         <Button type="primary" size="large"
                                                 style={{width: '100%'}}
