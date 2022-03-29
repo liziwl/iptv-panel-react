@@ -126,7 +126,13 @@ class App extends React.Component {
                                 console.log(collapsed, type);
                             }}
                         >
-                            <div className="logo"/>
+                            <div className="logo">
+                                <img src="/logo.svg" style={{height: '40px', paddingTop: '5px', paddingRight: '5px'}}/>
+                                <span style={{
+                                    marginTop: '20px', display: 'table-cell',
+                                    verticalAlign: 'middle'
+                                }}>IPTV</span>
+                            </div>
                             <Menu
                                 mode="inline"
                                 theme="dark"

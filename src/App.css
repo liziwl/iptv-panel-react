@@ -15,9 +15,12 @@
 .logo {
     float: left;
     width: 100px;
-    height: 30px;
-    margin: 10px 25px 10px 0;
-    background: rgba(255, 255, 255, 0.3);
+    height: 50px;
+    margin: 0px 0px 0px 20px;
+    filter: invert(100%);
+    font-weight: bold;
+    font-size: x-large;
+    display:table;
 }
 
 .ant-list-bordered .ant-list-item{
