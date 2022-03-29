@@ -22,11 +22,14 @@ class App extends React.Component {
 
     state = {
         url: this.urlFormat('cctv1hd'),
+        mobileUrl: '',
+        desktopUrl: '',
         liveTitle: "CCTV-1高清",
         openKey: '高清频道',
         channels: {},
         drawerVisible: false,
         placement: 'right',
+        mobileMode: false,
         showDesktop: true,
         showMobile: false,
         collapsed: true,
@@ -45,16 +48,20 @@ class App extends React.Component {
         });
     };
 
-    handleMobileMode = mode => {
-        if (mode) {
+    onChangeMobileMode = () => {
+        if (this.state.mobileMode) {
             this.setState({
                 showDesktop: 'none',
-                showMobile: true
+                desktopUrl: null,
+                showMobile: true,
+                mobileUrl: this.state.url,
             });
         } else {
             this.setState({
                 showDesktop: true,
-                showMobile: 'none'
+                desktopUrl: this.state.url,
+                showMobile: 'none',
+                mobileUrl: null,
             });
         }
     };
@@ -80,17 +87,21 @@ class App extends React.Component {
                     // console.log(this.state.channels);
                 }
             );
+        this.onChangeMobileMode();
     };
+
 
     handleSelect = e => {
         this.setState({
             openKey: e.key,
             url: this.urlFormat(this.state.channels[e.key][0]['Vid']),
             liveTitle: this.state.channels[e.key][0]['Name']
+        }, () => {
+            if (this.state.collapsedType === 'clickTrigger') {
+                this.setState({collapsed: true});
+            }
+            this.onChangeMobileMode();
         });
-        if (this.state.collapsedType === 'clickTrigger') {
-            this.setState({collapsed: true});
-        }
     };
 
     render() {
@@ -104,7 +115,7 @@ class App extends React.Component {
                             collapsedWidth="0"
                             collapsed={this.state.collapsed}
                             onBreakpoint={broken => {
-                                this.handleMobileMode(broken);
+                                this.setState({mobileMode: broken}, this.onChangeMobileMode);
                                 console.log('broken', broken);
                             }}
                             onCollapse={(collapsed, type) => {
@@ -174,7 +185,7 @@ class App extends React.Component {
                                                                 this.setState({
                                                                     url: this.urlFormat(item.Vid),
                                                                     liveTitle: item.Name
-                                                                });
+                                                                }, this.onChangeMobileMode);
                                                                 this.onCloseDrawer();
                                                             }}
                                                     >{item.Name}</Button>
@@ -214,7 +225,7 @@ class App extends React.Component {
                                                                     this.setState({
                                                                         url: this.urlFormat(item.Vid),
                                                                         liveTitle: item.Name
-                                                                    });
+                                                                    }, this.onChangeMobileMode);
                                                                 }}
                                                         >{item.Name}</Button>
                                                     </List.Item>
@@ -224,7 +235,7 @@ class App extends React.Component {
                                         <Space direction="vertical" size="small">
                                             <Title level={3}>正在播放：{this.state.liveTitle}</Title>
                                             <Video
-                                                url={this.state.url}
+                                                url={this.state.desktopUrl}
                                                 width={'auto'}
                                                 height={'calc(70vh - 36pt)'}
                                             />
@@ -236,7 +247,7 @@ class App extends React.Component {
                                     }}>
                                         <Title level={3}>正在播放：{this.state.liveTitle}</Title>
                                         <Video
-                                            url={this.state.url}
+                                            url={this.state.mobileUrl}
                                             width={'auto'}
                                         />
                                         <Button type="primary" size="large"
