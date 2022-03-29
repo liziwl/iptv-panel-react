@@ -41,7 +41,7 @@ class App extends React.Component {
                             '其他标清': cat4,
                         }
                     });
-                    console.log(this.state.channels);
+                    // console.log(this.state.channels);
                 }
             );
     }
