@@ -146,6 +146,7 @@ class App extends React.Component {
                                         onClose={this.onCloseDrawer}
                                         visible={drawerVisible}
                                         bodyStyle={{paddingTop: 0}}
+                                        width={'75vw'}
                                     >
                                         <List
                                             dataSource={this.state.channels[this.state.openKey]}
