@@ -15,9 +15,6 @@ const {Title} = Typography;
 
 const {Search} = Input;
 
-const onSearch = searchValue => {
-    console.log('use value', searchValue);
-};
 
 class App extends React.Component {
 
@@ -26,12 +23,14 @@ class App extends React.Component {
     };
 
     state = {
-        url: this.urlFormat('cctv1hd'),
+        url: '',
         mobileUrl: '',
         desktopUrl: '',
-        liveTitle: "CCTV-1高清",
-        openKey: '高清频道',
+        liveTitle: '',
+        channelListTitle: '',
+        categoryActive: '',
         channels: {},
+        channelsActive: [],
         drawerVisible: false,
         placement: 'right',
         mobileMode: false,
@@ -39,6 +38,52 @@ class App extends React.Component {
         showMobile: false,
         collapsed: true,
         collapsedType: '',
+    };
+
+    resetChannelsList = () => {
+        let prefix = "";
+        if (this.state.mobileMode) {
+            prefix = "频道切换 - ";
+        }
+        this.setState({
+            channelListTitle: `${prefix}${this.state.categoryActive}`,
+            channelsActive: this.state.channels[this.state.categoryActive]
+        });
+    };
+
+    onLiveSearch = e => {
+        if (e.type === 'click') {
+            // console.log("click");
+            this.resetChannelsList();
+            return;
+        }
+        if (this.state.mobileMode) {
+            return;
+        }
+        const searchValue = e.target.value;
+        if (searchValue === '') {
+            // console.log("null input");
+            this.resetChannelsList();
+        } else {
+            this.handleSearch(searchValue);
+        }
+    };
+
+    handleSearch = searchValue => {
+        // console.log('use value', searchValue);
+        if (searchValue === '') {
+            return;
+        }
+        const matches = this.state.channels.allChannels.filter(x => x.Name.toLowerCase().includes(searchValue.toLowerCase()));
+        this.setState({
+            channelListTitle: `搜索结果 - ${searchValue}`,
+            channelsActive: matches
+        }, () => {
+            if (this.state.mobileMode) {
+                this.showDrawer();
+            }
+        });
+        // console.log('matches', matches);
     };
 
     showDrawer = () => {
@@ -81,27 +126,40 @@ class App extends React.Component {
                     let cat2 = tmp_data.find(o => o.Name === '特色频道')['Channels'];
                     let cat3 = tmp_data.find(o => o.Name === '央视标清')['Channels'];
                     let cat4 = tmp_data.find(o => o.Name === '其他标清')['Channels'];
+                    let allChannels = cat1.concat(cat2, cat3, cat4);
                     this.setState({
                         channels: {
                             '高清频道': cat1,
                             '特色频道': cat2,
                             '央视标清': cat3,
                             '其他标清': cat4,
+                            'allChannels': allChannels
                         }
+                    }, () => {
+                        const initIndex = 0;
+                        const initKey = '高清频道';
+                        this.setState({
+                            url: this.urlFormat(this.state.channels[initKey][initIndex]['Vid']),
+                            liveTitle: this.state.channels[initKey][initIndex]['Name'],
+                            categoryActive: initKey,
+                        }, () => {
+                            this.resetChannelsList();
+                            this.onChangeMobileMode();
+                        });
                     });
                     // console.log(this.state.channels);
                 }
             );
-        this.onChangeMobileMode();
     };
 
 
     handleSelect = e => {
         this.setState({
-            openKey: e.key,
+            categoryActive: e.key,
             url: this.urlFormat(this.state.channels[e.key][0]['Vid']),
             liveTitle: this.state.channels[e.key][0]['Name']
         }, () => {
+            this.resetChannelsList();
             if (this.state.collapsedType === 'clickTrigger') {
                 this.setState({collapsed: true});
             }
@@ -142,7 +200,7 @@ class App extends React.Component {
                                 mode="inline"
                                 theme="dark"
                                 defaultSelectedKeys={['高清频道']}
-                                onSelect={this.handleSelect}
+                                onClick={this.handleSelect}
                                 style={{height: '100%', borderRight: 0}}
                             >
                                 <Menu.Item icon={<VideoCameraOutlined/>} key="高清频道">高清频道</Menu.Item>
@@ -161,14 +219,15 @@ class App extends React.Component {
                                     defaultSelectedKeys={['nav1']}
                                 >
                                     <Menu.Item key="nav1">电视频道</Menu.Item>
-                                    <Menu.Item key="nav2">自建频道</Menu.Item>
+                                    {/*<Menu.Item key="nav2">自建频道</Menu.Item>*/}
                                 </Menu>
                             </Header>
                             <div className="iptv-search left-search">
                                 <Search placeholder="频道搜索"
                                         size="large"
                                         allowClear
-                                        onSearch={onSearch}
+                                        onChange={this.onLiveSearch}
+                                        onSearch={this.handleSearch}
                                         style={{width: 200}}
                                 />
                             </div>
@@ -176,7 +235,7 @@ class App extends React.Component {
                             <Content style={{margin: '16px 16px 0'}}>
                                 <div className="site-layout-background" style={{padding: 24, minHeight: 360}}>
                                     <Drawer
-                                        title={`频道切换 - ${this.state.openKey}`}
+                                        title={this.state.channelListTitle}
                                         placement={placement}
                                         onClose={this.onCloseDrawer}
                                         visible={drawerVisible}
@@ -184,7 +243,8 @@ class App extends React.Component {
                                         width={'75vw'}
                                     >
                                         <List
-                                            dataSource={this.state.channels[this.state.openKey]}
+                                            id={"mobile-channel-list"}
+                                            dataSource={this.state.channelsActive}
                                             renderItem={item => (
                                                 <List.Item>
                                                     <Button type="text"
@@ -218,13 +278,14 @@ class App extends React.Component {
                                             }}
                                         >
                                             <List
+                                                id={"desktop-channel-list"}
                                                 header={<div style={{
                                                     fontWeight: 'bold',
                                                     fontSize: 'larger',
                                                     minWidth: '180px'
-                                                }}>{this.state.openKey}</div>}
+                                                }}>{this.state.channelListTitle}</div>}
                                                 bordered
-                                                dataSource={this.state.channels[this.state.openKey]}
+                                                dataSource={this.state.channelsActive}
                                                 renderItem={item => (
                                                     <List.Item>
                                                         <Button type="text"
