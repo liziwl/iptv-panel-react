@@ -1,9 +1,14 @@
 import React from 'react';
-import {Button, Drawer, Input, Layout, List, Menu, Space, Typography} from 'antd';
+import {Button, Col, Drawer, Input, Layout, List, Menu, Row, Space, Typography} from 'antd';
 import {VideoCameraOutlined} from '@ant-design/icons';
 import './App.css';
 import Video from "./Video";
 import axios from "axios";
+
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faGithub} from '@fortawesome/free-brands-svg-icons'
+import {faCopyright} from '@fortawesome/free-regular-svg-icons'
+import {faGears, faHeart} from '@fortawesome/free-solid-svg-icons'
 
 const {Header, Content, Footer, Sider} = Layout;
 const {Title} = Typography;
@@ -264,9 +269,24 @@ class App extends React.Component {
                                 </div>
                             </Content>
                             <Footer style={{textAlign: 'center'}}>
-                                © 2022 Created by <a href="https://github.com/liziwl/" target="_blank">liziwl</a>,
-                                Powered by <a
-                                href="https://ant.design/docs/react/introduce-cn" target="_blank">Ant Design</a>
+                                <Row justify="center">
+                                    <Col lg={4} sm={12} xs={24}>
+                                        <FontAwesomeIcon icon={faHeart}/> 感谢清华IPTV提供视频源
+                                    </Col>
+                                    <Col lg={4} sm={12} xs={24}>
+                                        <FontAwesomeIcon icon={faGithub}/> <a
+                                        href="https://github.com/liziwl/iptv-panel-react"
+                                        target="_blank">GitHub</a>
+                                    </Col>
+                                    <Col lg={4} sm={12} xs={24}>
+                                        <FontAwesomeIcon icon={faCopyright}/> 2022 Created by <a
+                                        href="https://github.com/liziwl/" target="_blank">liziwl</a>
+                                    </Col>
+                                    <Col lg={4} sm={12} xs={24}>
+                                        <FontAwesomeIcon icon={faGears}/> Powered by <a
+                                        href="https://ant.design/docs/react/introduce-cn" target="_blank">Ant Design</a>
+                                    </Col>
+                                </Row>
                             </Footer>
 
                         </Layout>
