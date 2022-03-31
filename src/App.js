@@ -95,6 +95,8 @@ class App extends React.Component {
     onCloseDrawer = () => {
         this.setState({
             drawerVisible: false,
+        }, () => {
+            this.resetChannelsList();
         });
     };
 
