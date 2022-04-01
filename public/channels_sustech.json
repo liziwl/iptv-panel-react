@@ -211,6 +211,10 @@
             {
                "Name": "CGTN纪实高清",
                "Vid": "cgtndochd"
+            },
+            {
+               "Name": "五星体育",
+               "Vid": "wxty"
             }
          ]
       },
