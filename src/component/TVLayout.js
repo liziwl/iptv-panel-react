@@ -211,7 +211,7 @@ class TVLayout extends React.Component {
                                 defaultSelectedKeys={['nav1']}
                             >
                                 <Menu.Item key="nav1"><Link to="/TV">电视频道</Link></Menu.Item>
-                                <Menu.Item key="nav2"><Link to="/Custom">自建频道</Link></Menu.Item>
+                                {/*<Menu.Item key="nav2"><Link to="/Custom">自建频道</Link></Menu.Item>*/}
                             </Menu>
                         </Header>
                         <div className="iptv-search left-search">
