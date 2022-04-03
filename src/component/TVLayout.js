@@ -3,10 +3,10 @@ import {Button, Drawer, Input, Layout, List, Menu, Space, Typography} from 'antd
 import {VideoCameraOutlined} from '@ant-design/icons';
 import Video from "./Video";
 import Logo from "./Logo"
+import HeaderMenu from "./HeaderMenu"
 import axios from "axios";
 import PageFooter from "./PageFooter";
 import './TVLayout.css';
-import {Link} from "react-router-dom";
 
 
 const {Header, Content, Sider} = Layout;
@@ -205,14 +205,7 @@ class TVLayout extends React.Component {
                         <Header className="site-layout-sub-header-background"
                                 style={{lineHeight: '50px', height: '50px', padding: 0}}
                         >
-                            <Menu
-                                theme="dark"
-                                mode="horizontal"
-                                defaultSelectedKeys={['nav1']}
-                            >
-                                <Menu.Item key="nav1"><Link to="/TV">电视频道</Link></Menu.Item>
-                                {/*<Menu.Item key="nav2"><Link to="/Custom">自建频道</Link></Menu.Item>*/}
-                            </Menu>
+                            <HeaderMenu initKey="电视频道"></HeaderMenu>
                         </Header>
                         <div className="iptv-search left-search">
                             <Search placeholder="频道搜索"
