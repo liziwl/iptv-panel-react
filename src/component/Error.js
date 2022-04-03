@@ -2,16 +2,16 @@ import React from "react";
 import {Layout} from 'antd';
 import PageFooter from "./PageFooter";
 import Logo from "./Logo";
-import "./Error.css"
 import {Link} from "react-router-dom";
+import "./Error.css"
 
 const {Header, Content} = Layout;
 
 class Error extends React.Component {
     render() {
         return (
-            <Layout className="layout">
-                <Header style={{alignItems: "center"}}>
+            <Layout className="error-layout">
+                <Header style={{alignItems: "center", lineHeight: '50px', height: '50px', padding: 0}}>
                     <Logo/>
                 </Header>
                 <Content style={{margin: '16px 16px 0'}}>

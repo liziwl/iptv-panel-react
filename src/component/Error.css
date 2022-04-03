@@ -1,5 +1,6 @@
-.logo img {
-    height: 50px;
+.error-layout .logo img {
+    height: 45px;
     padding-top: 0px;
+    padding-bottom: 5px;
     padding-right: 10px;
 }
