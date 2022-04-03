@@ -16,7 +16,7 @@ class App extends React.Component {
                     <Routes>
                         {/* 默认初始化入口 */}
                         <Route path="/" element={<Navigate to="/TV"/>}/>
-                        <Route path="TV/*" element={<TVLayout/>}/>
+                        <Route path="tv/*" element={<TVLayout/>}/>
                         {/*<Route path="Custom/*" element={<CustomLayout/>}/>*/}
                         {/* 404页面 */}
                         <Route path="*" element={<Error/>}/>
