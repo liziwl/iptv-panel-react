@@ -2,6 +2,7 @@ import React from "react";
 import {Button, Drawer, Input, Layout, List, Menu, Space, Typography} from 'antd';
 import {VideoCameraOutlined} from '@ant-design/icons';
 import Video from "./Video";
+import Logo from "./Logo"
 import axios from "axios";
 import PageFooter from "./PageFooter";
 import './TVLayout.css';
@@ -185,13 +186,7 @@ class TVLayout extends React.Component {
                             console.log(collapsed, type);
                         }}
                     >
-                        <div className="logo">
-                            <img src="/logo.svg" style={{height: '40px', paddingTop: '5px', paddingRight: '5px'}}/>
-                            <span style={{
-                                marginTop: '20px', display: 'table-cell',
-                                verticalAlign: 'middle'
-                            }}>IPTV</span>
-                        </div>
+                        <Logo/>
                         <Menu
                             mode="inline"
                             theme="dark"
