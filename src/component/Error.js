@@ -15,9 +15,12 @@ class Error extends React.Component {
                     <Logo/>
                 </Header>
                 <Content style={{margin: '16px 16px 0'}}>
-                    <div className="site-layout-background" style={{padding: 24, minHeight: 360}}>
+                    <div className="site-layout-background" style={{padding: 24, minHeight: 360, textAlign: "center"}}>
                         {/* link跳转 */}
-                        <Link to="/">回到首页</Link>
+                        <h1>
+                            404 找不到页面<br/>
+                            <Link to="/">回到首页</Link>
+                        </h1>
                     </div>
                 </Content>
                 <PageFooter/>
