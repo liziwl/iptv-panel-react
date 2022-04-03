@@ -5,11 +5,8 @@ class Logo extends React.Component {
     render() {
         return (
             <div className="logo">
-                <img src="/logo.svg" style={{height: '40px', paddingTop: '5px', paddingRight: '5px'}}/>
-                <span style={{
-                    marginTop: '20px', display: 'table-cell',
-                    verticalAlign: 'middle'
-                }}>IPTV</span>
+                <img src="/logo.svg"/>
+                <span>IPTV</span>
             </div>
         )
     }

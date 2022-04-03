@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import TVLayout from "./component/TVLayout";
+import Error from "./component/Error";
 
 
 class App extends React.Component {
@@ -19,18 +20,9 @@ class App extends React.Component {
                         <Route path="*" element={<Error/>}/>
                     </Routes>
                 </BrowserRouter>
-                {/*<TVLayout/>*/}
             </div>
         );
     }
-}
-
-function TV() {
-    return <h2>TV</h2>;
-}
-
-function Error() {
-    return <h2>Error</h2>;
 }
 
 export default App;
