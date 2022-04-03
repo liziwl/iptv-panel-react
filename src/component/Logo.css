@@ -8,3 +8,15 @@
     font-size: x-large;
     display:table;
 }
+
+.logo img {
+    height: 40px;
+    padding-top: 5px;
+    padding-right: 5px;
+}
+
+.logo span {
+    margin-top: 20px;
+    display: table-cell;
+    vertical-align: middle;
+}
