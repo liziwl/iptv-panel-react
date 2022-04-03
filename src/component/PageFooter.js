@@ -19,15 +19,15 @@ class PageFooter extends PureComponent {
                     <Col lg={4} sm={12} xs={24}>
                         <FontAwesomeIcon icon={faGithub}/> <a
                         href="https://github.com/liziwl/iptv-panel-react"
-                        target="_blank">GitHub</a>
+                        target="_blank" rel="noreferrer">GitHub</a>
                     </Col>
                     <Col lg={4} sm={12} xs={24}>
                         <FontAwesomeIcon icon={faCopyright}/> 2022 Created by <a
-                        href="https://github.com/liziwl/" target="_blank">liziwl</a>
+                        href="https://github.com/liziwl/" target="_blank" rel="noreferrer">liziwl</a>
                     </Col>
                     <Col lg={4} sm={12} xs={24}>
                         <FontAwesomeIcon icon={faGears}/> Powered by <a
-                        href="https://ant.design/docs/react/introduce-cn" target="_blank">Ant Design</a>
+                        href="https://ant.design/docs/react/introduce-cn" target="_blank" rel="noreferrer">Ant Design</a>
                     </Col>
                 </Row>
             </Footer>
