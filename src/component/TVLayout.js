@@ -6,6 +6,7 @@ import Logo from "./Logo"
 import axios from "axios";
 import PageFooter from "./PageFooter";
 import './TVLayout.css';
+import {Link} from "react-router-dom";
 
 
 const {Header, Content, Sider} = Layout;
@@ -209,8 +210,8 @@ class TVLayout extends React.Component {
                                 mode="horizontal"
                                 defaultSelectedKeys={['nav1']}
                             >
-                                <Menu.Item key="nav1">电视频道</Menu.Item>
-                                {/*<Menu.Item key="nav2">自建频道</Menu.Item>*/}
+                                <Menu.Item key="nav1"><Link to="/TV">电视频道</Link></Menu.Item>
+                                <Menu.Item key="nav2"><Link to="/Custom">自建频道</Link></Menu.Item>
                             </Menu>
                         </Header>
                         <div className="iptv-search left-search">
