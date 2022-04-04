@@ -17,7 +17,8 @@ const {Search} = Input;
 class TVLayout extends React.Component {
 
     urlFormat = key => {
-        return `//iptv.liziwl.cn/hls/${key}.m3u8`
+        const url = `/hls/${key}.m3u8`;
+        return url
     };
 
     state = {
