@@ -10,6 +10,7 @@ class Video extends PureComponent {
                     height={this.props.height}
                     pip
                     controls
+                    playsinline
                     config={{
                         file: {
                             forceHLS: true,
