@@ -2,6 +2,11 @@ import React, {useEffect, useRef, useState} from 'react';
 import Player, {EVENT} from 'nplayer'
 import Hls from 'hls.js'
 
+NVideo.defaultProps = {
+    width: '500px',
+    height: 'auto'
+};
+
 export default function NVideo(props) {
 
     const container = useRef()
@@ -52,7 +57,7 @@ export default function NVideo(props) {
     return (
         <div>
             <div className="VideoContainer" ref={container}
-                 style={{width: props.width, maxWidth: '100%', height: props.height}}></div>
+                 style={{width: props.width, maxWidth: '100%', height: props.height}}/>
         </div>
     );
 }
