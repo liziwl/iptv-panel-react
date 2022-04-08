@@ -148,6 +148,7 @@ class TVLayout extends React.Component {
     render() {
         let scrollableDiv = null;
         let switchChannelBtn = null;
+        let videoHeight = "auto"
         if (!this.state.mobileMode) {
             scrollableDiv = (
                 <div
@@ -187,6 +188,7 @@ class TVLayout extends React.Component {
                     />
                 </div>
             )
+            videoHeight = 'calc(70vh - 36pt)'
         } else {
             switchChannelBtn = (
                 <Button type="primary" size="large"
@@ -286,7 +288,7 @@ class TVLayout extends React.Component {
                                         <Video
                                             url={this.state.url}
                                             width={'auto'}
-                                            height={'calc(70vh - 36pt)'}
+                                            height={videoHeight}
                                         />
                                         {switchChannelBtn}
                                     </Space>
