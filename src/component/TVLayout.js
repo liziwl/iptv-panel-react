@@ -24,8 +24,6 @@ class TVLayout extends React.Component {
 
     state = {
         url: '',
-        mobileUrl: '',
-        desktopUrl: '',
         liveTitle: '',
         channelListTitle: '',
         categoryActive: '',
@@ -34,8 +32,6 @@ class TVLayout extends React.Component {
         drawerVisible: false,
         placement: 'right',
         mobileMode: false,
-        showDesktop: true,
-        showMobile: false,
         collapsed: true,
         collapsedType: '',
     };
@@ -100,24 +96,6 @@ class TVLayout extends React.Component {
         });
     };
 
-    onChangeMobileMode = () => {
-        if (this.state.mobileMode) {
-            this.setState({
-                showDesktop: 'none',
-                desktopUrl: null,
-                showMobile: true,
-                mobileUrl: this.state.url,
-            });
-        } else {
-            this.setState({
-                showDesktop: true,
-                desktopUrl: this.state.url,
-                showMobile: 'none',
-                mobileUrl: null,
-            });
-        }
-    };
-
 
     componentDidMount() {
         // Simple GET request using axios
@@ -146,7 +124,6 @@ class TVLayout extends React.Component {
                             categoryActive: initKey,
                         }, () => {
                             this.resetChannelsList();
-                            this.onChangeMobileMode();
                         });
                     });
                     // console.log(this.state.channels);
@@ -165,11 +142,59 @@ class TVLayout extends React.Component {
             if (this.state.collapsedType === 'clickTrigger') {
                 this.setState({collapsed: true});
             }
-            this.onChangeMobileMode();
         });
     };
 
     render() {
+        let scrollableDiv = null;
+        let switchChannelBtn = null;
+        if (!this.state.mobileMode) {
+            scrollableDiv = (
+                <div
+                    id="scrollableDiv"
+                    style={{
+                        height: '70vh',
+                        overflow: 'auto',
+                        // padding: '0 16px',
+                        // border: '1px solid rgba(140, 140, 140, 0.35)',
+                    }}
+                >
+                    <List
+                        id={"desktop-channel-list"}
+                        header={<div style={{
+                            fontWeight: 'bold',
+                            fontSize: 'larger',
+                            minWidth: '180px'
+                        }}>{this.state.channelListTitle}</div>}
+                        bordered
+                        dataSource={this.state.channelsActive}
+                        renderItem={item => (
+                            <List.Item>
+                                <Button type="text"
+                                        style={{
+                                            width: '100%',
+                                            textAlign: 'left'
+                                        }}
+                                        onClick={() => {
+                                            this.setState({
+                                                url: this.urlFormat(item.Vid),
+                                                liveTitle: item.Name
+                                            });
+                                        }}
+                                >{item.Name}</Button>
+                            </List.Item>
+                        )}
+                    />
+                </div>
+            )
+        } else {
+            switchChannelBtn = (
+                <Button type="primary" size="large"
+                        style={{width: '100%'}}
+                        onClick={this.showDrawer}>切换频道</Button>
+            )
+        }
+
         return (
             <div>
                 <Layout>
@@ -178,7 +203,7 @@ class TVLayout extends React.Component {
                         collapsedWidth="0"
                         collapsed={this.state.collapsed}
                         onBreakpoint={broken => {
-                            this.setState({mobileMode: broken}, this.onChangeMobileMode);
+                            this.setState({mobileMode: broken});
                             console.log('broken', broken);
                         }}
                         onCollapse={(collapsed, type) => {
@@ -243,7 +268,7 @@ class TVLayout extends React.Component {
                                                             this.setState({
                                                                 url: this.urlFormat(item.Vid),
                                                                 liveTitle: item.Name
-                                                            }, this.onChangeMobileMode);
+                                                            });
                                                             this.onCloseDrawer();
                                                         }}
                                                 >{item.Name}</Button>
@@ -253,65 +278,18 @@ class TVLayout extends React.Component {
                                 </Drawer>
                                 <Space size="large"
                                        direction="horizontal" style={{
-                                    width: '100%', justifyContent: 'center', display: this.state.showDesktop
+                                    width: '100%', justifyContent: 'center'
                                 }}>
-                                    <div
-                                        id="scrollableDiv"
-                                        style={{
-                                            height: '70vh',
-                                            overflow: 'auto',
-                                            // padding: '0 16px',
-                                            // border: '1px solid rgba(140, 140, 140, 0.35)',
-                                        }}
-                                    >
-                                        <List
-                                            id={"desktop-channel-list"}
-                                            header={<div style={{
-                                                fontWeight: 'bold',
-                                                fontSize: 'larger',
-                                                minWidth: '180px'
-                                            }}>{this.state.channelListTitle}</div>}
-                                            bordered
-                                            dataSource={this.state.channelsActive}
-                                            renderItem={item => (
-                                                <List.Item>
-                                                    <Button type="text"
-                                                            style={{
-                                                                width: '100%',
-                                                                textAlign: 'left'
-                                                            }}
-                                                            onClick={() => {
-                                                                this.setState({
-                                                                    url: this.urlFormat(item.Vid),
-                                                                    liveTitle: item.Name
-                                                                }, this.onChangeMobileMode);
-                                                            }}
-                                                    >{item.Name}</Button>
-                                                </List.Item>
-                                            )}
-                                        />
-                                    </div>
+                                    {scrollableDiv}
                                     <Space direction="vertical" size="small">
                                         <Title level={3}>正在播放：{this.state.liveTitle}</Title>
                                         <Video
-                                            url={this.state.desktopUrl}
+                                            url={this.state.url}
                                             width={'auto'}
                                             height={'calc(70vh - 36pt)'}
                                         />
+                                        {switchChannelBtn}
                                     </Space>
-                                </Space>
-                                <Space size="small"
-                                       direction="vertical" style={{
-                                    width: '100%', justifyContent: 'center', display: this.state.showMobile
-                                }}>
-                                    <Title level={3}>正在播放：{this.state.liveTitle}</Title>
-                                    <Video
-                                        url={this.state.mobileUrl}
-                                        width={'auto'}
-                                    />
-                                    <Button type="primary" size="large"
-                                            style={{width: '100%'}}
-                                            onClick={this.showDrawer}>切换频道</Button>
                                 </Space>
 
                             </div>
