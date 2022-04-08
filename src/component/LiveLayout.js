@@ -4,12 +4,12 @@ import PageFooter from "./PageFooter";
 import HeaderMenu from "./HeaderMenu"
 import {default as Video} from "./NVideo";
 import Logo from "./Logo";
-import "./Live.css"
+import "./LiveLayout.css"
 
 const {Header, Content} = Layout;
 const {Title} = Typography;
 
-class Live extends React.Component {
+class LiveLayout extends React.Component {
     render() {
         const url = "https://live.cra.moe/hls/0/stream.m3u8";
         return (
@@ -35,4 +35,4 @@ class Live extends React.Component {
     }
 }
 
-export default Live;
+export default LiveLayout;
