@@ -20,13 +20,21 @@ class LiveLayout extends React.Component {
                 </Header>
 
                 <Content style={{margin: '16px 16px 0'}}>
-                    <div className="site-layout-background" style={{padding: 24, minHeight: 360, textAlign: "center"}}>
-                        <Title level={3}>核酸检测队伍实况</Title>
+                    <div className="site-layout-background" style={{padding: 24, minHeight: 360}}>
+                        <Title level={3}>CRA Live 核酸检测队伍实况</Title>
                         <Space direction="vertical" size="small">
-                            <Video
-                                url={url}
-                                width={'auto'}
-                            />
+                            <div style={{maxWidth: '800px'}}>
+                                <Video
+                                    url={url}
+                                    width={'auto'}
+                                />
+                            </div>
+                            <Title level={5}>CRA提供的直播服务，直播时间为每日 10:00-20:00</Title>
+                            <Title level={5}>FIND ME ON <a
+                                href="https://sustech.online/"
+                                target="_blank" rel="noreferrer">📚南科手册</a></Title>
+                            <span>请大家根据现场排队情况选择人员较少时前往。</span>
+                            <span>本站仅提供实况直播，不会对画面进行录制和存储，也不会使用程序对直播的画面进行任何分析。</span>
                         </Space>
                     </div>
                 </Content>
