@@ -1,5 +1,5 @@
 import React from "react";
-import {Layout, Typography} from 'antd';
+import {Layout, Space, Typography} from 'antd';
 import PageFooter from "./PageFooter";
 import HeaderMenu from "./HeaderMenu"
 import {default as Video} from "./NVideo";
@@ -22,11 +22,12 @@ class LiveLayout extends React.Component {
                 <Content style={{margin: '16px 16px 0'}}>
                     <div className="site-layout-background" style={{padding: 24, minHeight: 360, textAlign: "center"}}>
                         <Title level={3}>核酸检测队伍实况</Title>
-                        <Video
-                            url={url}
-                            width={'auto'}
-                            height={'70vh'}
-                        />
+                        <Space direction="vertical" size="small">
+                            <Video
+                                url={url}
+                                width={'auto'}
+                            />
+                        </Space>
                     </div>
                 </Content>
                 <PageFooter/>

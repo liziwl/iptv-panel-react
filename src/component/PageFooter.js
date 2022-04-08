@@ -14,7 +14,7 @@ class PageFooter extends PureComponent {
             <Footer style={{textAlign: 'center'}}>
                 <Row justify="center">
                     <Col lg={4} sm={12} xs={24}>
-                        <FontAwesomeIcon icon={faHeart}/> 感谢清华IPTV提供视频源
+                        <FontAwesomeIcon icon={faHeart}/> 感谢清华IPTV提供电视频道源
                     </Col>
                     <Col lg={4} sm={12} xs={24}>
                         <FontAwesomeIcon icon={faGithub}/> <a

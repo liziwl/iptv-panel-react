@@ -57,7 +57,7 @@ export default function NVideo(props) {
     return (
         <div>
             <div className="VideoContainer" ref={container}
-                 style={{width: props.width, maxWidth: '100%', height: props.height}}/>
+                 style={{width: props.width, height: props.height}}/>
         </div>
     );
 }
