@@ -1,7 +1,8 @@
 import React from "react";
 import {Button, Drawer, Input, Layout, List, Menu, Space, Typography} from 'antd';
 import {VideoCameraOutlined} from '@ant-design/icons';
-import Video from "./Video";
+// import Video from "./Video";
+import {default as Video} from "./NVideo";
 import Logo from "./Logo"
 import HeaderMenu from "./HeaderMenu"
 import axios from "axios";
