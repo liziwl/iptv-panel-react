@@ -1,50 +1,58 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Player, {EVENT} from 'nplayer'
 import Hls from 'hls.js'
 
-export default function NVideo() {
+export default function NVideo(props) {
 
     const container = useRef()
 
-    useEffect(() => {
+    const [url, setUrl] = useState('');
 
+    useEffect(() => {
+        setUrl(props.url);
+    }, [props.url])
+
+    useEffect(() => {
         if (typeof document === 'undefined') return;
 
-        const player = new Player({
-            thumbnail: {
-                startSecond: 1,
-            },
-            // i18n: locale,
-            volumeVertical: true,
-            controls: [
-                ['play', 'volume', 'spacer', 'airplay', 'web-fullscreen', 'fullscreen'],
-            ],
-        })
+        if (url) {
+            const player = new Player({
+                thumbnail: {
+                    startSecond: 1,
+                },
+                volumeVertical: false,
+                // controls: [
+                //     ['play', 'volume', 'spacer', 'airplay', 'web-fullscreen', 'fullscreen'],
+                // ],
+                live: true
+            })
 
-        player.on(EVENT.WEB_ENTER_FULLSCREEN, () => {
-            document.body.style.overflow = 'hidden'
-        })
-        player.on(EVENT.WEB_EXIT_FULLSCREEN, () => {
-            document.body.style.overflow = ''
-        })
+            player.on(EVENT.WEB_ENTER_FULLSCREEN, () => {
+                document.body.style.overflow = 'hidden'
+            })
+            player.on(EVENT.WEB_EXIT_FULLSCREEN, () => {
+                document.body.style.overflow = ''
+            })
 
-        const hls = new Hls();
-        hls.on(Hls.Events.MEDIA_ATTACHED, function () {
-            hls.loadSource("https://iptv.liziwl.cn/hls/cctv1hd.m3u8")
-        })
+            const hls = new Hls();
+            hls.on(Hls.Events.MEDIA_ATTACHED, function () {
+                hls.loadSource(url)
+            })
 
-        hls.attachMedia(player.video)
-        player.mount(container.current);
+            hls.attachMedia(player.video)
+            player.mount(container.current);
 
-
-        return () => {
-            hls.destroy()
-            player.dispose()
+            return () => {
+                hls.destroy()
+                player.dispose()
+            }
         }
-    }, [])
+    }, [url])
+
     return (
         <div>
-            <div className="VideoContainer" ref={container}></div>
+            <div className="VideoContainer" ref={container}
+                 style={{width: props.width, maxWidth: '100%', height: props.height}}></div>
         </div>
     );
 }
