@@ -1,8 +1,8 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef} from 'react';
 import Player, {EVENT} from 'nplayer'
 import Hls from 'hls.js'
 
-export default function Video() {
+export default function NVideo() {
 
     const container = useRef()
 
