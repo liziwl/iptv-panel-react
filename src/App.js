@@ -3,6 +3,7 @@ import './App.css';
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import TVLayout from "./component/TVLayout";
 import Error from "./component/Error";
+import Live from "./component/Live";
 // import CustomLayout from "./component/CustomLayout";
 
 
@@ -17,6 +18,7 @@ class App extends React.Component {
                         {/* 默认初始化入口 */}
                         <Route path="/" element={<Navigate to="/tv"/>}/>
                         <Route path="/tv" element={<TVLayout/>}/>
+                        <Route path="/live" element={<Live/>}/>
                         {/* 404页面 */}
                         <Route path="*" element={<Error/>}/>
                     </Routes>

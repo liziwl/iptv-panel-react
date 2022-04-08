@@ -11,7 +11,7 @@ class HeaderMenu extends PureComponent {
                 defaultSelectedKeys={[this.props.initKey]}
             >
                 <Menu.Item key="电视频道"><Link to="/tv">电视频道</Link></Menu.Item>
-                {/*<Menu.Item key="自建频道"><Link to="/custom">自建频道</Link></Menu.Item>*/}
+                <Menu.Item key="直播频道"><Link to="/live">直播频道</Link></Menu.Item>
             </Menu>
         )
     }
