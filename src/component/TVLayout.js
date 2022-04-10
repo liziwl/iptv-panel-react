@@ -174,7 +174,7 @@ class TVLayout extends React.Component {
         }, 1000 * 10);// 10秒统计一次
         this.get_counter_interval = setInterval(() => {
             this.get_counter();
-        }, 1000 * 5);// 5秒统计一次    
+        }, 1000 * 5);// 5秒统计一次
     };
 
 
