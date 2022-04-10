@@ -101,14 +101,16 @@ class TVLayout extends React.Component {
 
     update_counter() {
         const vid_value = this.state.vid;
-        axios.get(`/status/visitor?vid=${vid_value}`);
-        let data = new FormData();
-        data.append('vid', vid_value);
-        axios.post('/status/online', data)
-            .then(response => {
-                let count = response.data['online_uv'];
-                this.setState({'online_uv': count});
-            });
+        if (vid_value){
+            axios.get(`/status/visitor?vid=${vid_value}`);
+            let data = new FormData();
+            data.append('vid', vid_value);
+            axios.post('/status/online', data)
+                .then(response => {
+                    let count = response.data['online_uv'];
+                    this.setState({'online_uv': count});
+                });
+        }
     }
 
     init_channels() {
