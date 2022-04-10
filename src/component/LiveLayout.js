@@ -16,9 +16,10 @@ class LiveLayout extends React.Component {
     };
 
     update_counter() {
-        axios.get('https://iptv.liziwl.cn/status/visitor?vid=covid-test');
+        const vid_value = 'covid-test';
+        axios.get(`https://iptv.liziwl.cn/status/visitor?vid=${vid_value}`);
         let data = new FormData();
-        data.append('vid', 'covid-test');
+        data.append('vid', vid_value);
         axios.post('https://iptv.liziwl.cn/status/online', data)
             .then(response => {
                 let count = response.data['online_uv'];
