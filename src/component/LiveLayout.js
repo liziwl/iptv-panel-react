@@ -18,6 +18,10 @@ class LiveLayout extends React.Component {
     update_counter() {
         const vid_value = 'covid-test';
         axios.get(`/status/visitor?vid=${vid_value}`);
+    }
+
+    get_counter() {
+        const vid_value = 'covid-test';
         let data = new FormData();
         data.append('vid', vid_value);
         axios.post('/status/online', data)
@@ -30,15 +34,13 @@ class LiveLayout extends React.Component {
 
     componentDidMount() {
         this.update_counter();
-        this.interval = setInterval(() => {
-            this.update_counter();
-            // 10秒统计一次
-        }, 1000 * 10);
-
+        this.update_counter_interval = setInterval(this.update_counter, 1000 * 10);// 10秒统计一次
+        this.get_counter_interval = setInterval(this.get_counter, 1000 * 5);// 5秒统计一次
     }
 
     componentWillUnmount() {
-        clearInterval(this.interval);
+        clearInterval(this.update_counter_interval);
+        clearInterval(this.get_counter_interval);
     }
 
 
