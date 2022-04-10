@@ -15,7 +15,7 @@ class PageFooter extends PureComponent {
     };
 
     get_counter() {
-        axios.get('/status/onlineall').then(response => {
+        axios.get(`${process.env.REACT_APP_SERVER_URL}/status/onlineall`).then(response => {
             let count = response.data['online_uv'];
             this.setState({'online_uv': count});
         });

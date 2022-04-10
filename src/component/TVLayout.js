@@ -18,7 +18,7 @@ const {Search} = Input;
 class TVLayout extends React.Component {
 
     urlFormat = key => {
-        const url = `/hls/${key}.m3u8`;
+        const url = `${process.env.REACT_APP_SERVER_URL}/hls/${key}.m3u8`;
         this.setState({vid: key});
         return url
     };
@@ -105,7 +105,7 @@ class TVLayout extends React.Component {
         if (vid_value) {
             let data = new FormData();
             data.append('vid', vid_value);
-            axios.post('/status/online', data)
+            axios.post(`${process.env.REACT_APP_SERVER_URL}/status/online`, data)
                 .then(response => {
                     let count = response.data['online_uv'];
                     this.setState({'online_uv': count});
@@ -116,7 +116,7 @@ class TVLayout extends React.Component {
     get_counter() {
         const vid_value = this.state.vid;
         if (vid_value) {
-            axios.get(`/status/visitor?vid=${vid_value}`);
+            axios.get(`${process.env.REACT_APP_SERVER_URL}/status/visitor?vid=${vid_value}`);
         }
     }
 
