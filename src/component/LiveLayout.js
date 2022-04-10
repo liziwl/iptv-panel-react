@@ -68,7 +68,7 @@ class LiveLayout extends React.Component {
                             <Title level={5}>FIND ME ON <a
                                 href="https://sustech.online/"
                                 target="_blank" rel="noreferrer">📚南科手册</a></Title>
-                            <span>当前在线人数：{online_uv}</span>
+                            <span>直播在线人数：{online_uv}</span>
                             <span>请大家根据现场排队情况选择人员较少时前往。</span>
                             <span>本站仅提供实况直播，不会对画面进行录制和存储，也不会使用程序对直播的画面进行任何分析。</span>
                         </Space>
