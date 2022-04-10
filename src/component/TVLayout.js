@@ -19,11 +19,13 @@ class TVLayout extends React.Component {
 
     urlFormat = key => {
         const url = `/hls/${key}.m3u8`;
+        this.setState({vid: key});
         return url
     };
 
     state = {
         url: '',
+        vid: '',
         liveTitle: '',
         channelListTitle: '',
         categoryActive: '',
@@ -34,6 +36,7 @@ class TVLayout extends React.Component {
         mobileMode: false,
         collapsed: true,
         collapsedType: '',
+        online_uv: 0,
     };
 
     resetChannelsList = () => {
@@ -96,9 +99,19 @@ class TVLayout extends React.Component {
         });
     };
 
+    update_counter() {
+        const vid_value = this.state.vid;
+        axios.get(`/status/visitor?vid=${vid_value}`);
+        let data = new FormData();
+        data.append('vid', vid_value);
+        axios.post('/status/online', data)
+            .then(response => {
+                let count = response.data['online_uv'];
+                this.setState({'online_uv': count});
+            });
+    }
 
-    componentDidMount() {
-        // Simple GET request using axios
+    init_channels() {
         axios.get('/channels_sustech.json')
             .then(response => {
                     let tmp_data = response.data['Categories'];
@@ -129,6 +142,17 @@ class TVLayout extends React.Component {
                     // console.log(this.state.channels);
                 }
             );
+    }
+
+    componentDidMount() {
+        // Simple GET request using axios
+        this.init_channels();
+        this.update_counter();
+        this.interval = setInterval(() => {
+            this.update_counter();
+            // 10秒统计一次
+        }, 1000 * 10);
+
     };
 
 
@@ -149,6 +173,7 @@ class TVLayout extends React.Component {
         let scrollableDiv = null;
         let switchChannelBtn = null;
         let videoHeight = "auto"
+        const {online_uv} = this.state;
         if (!this.state.mobileMode) {
             scrollableDiv = (
                 <div
@@ -188,7 +213,7 @@ class TVLayout extends React.Component {
                     />
                 </div>
             )
-            videoHeight = 'calc(70vh - 36pt)'
+            videoHeight = 'calc(70vh - 60pt)'
         } else {
             switchChannelBtn = (
                 <Button type="primary" size="large"
@@ -291,6 +316,7 @@ class TVLayout extends React.Component {
                                             height={videoHeight}
                                         />
                                         {switchChannelBtn}
+                                        <span>当前在线人数：{online_uv}</span>
                                     </Space>
                                 </Space>
 
