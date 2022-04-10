@@ -23,7 +23,7 @@ class PageFooter extends PureComponent {
 
 
     componentDidMount() {
-        this.get_counter();
+        setTimeout(this.get_counter, 500)
         this.get_counter_interval = setInterval(this.get_counter, 1000 * 5);// 5秒统计一次
     }
 

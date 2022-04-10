@@ -163,7 +163,8 @@ class TVLayout extends React.Component {
     componentDidMount() {
         // Simple GET request using axios
         this.init_channels();
-        this.update_counter();
+        setTimeout(this.update_counter, 500)
+        setTimeout(this.get_counter, 500)
         this.update_counter_interval = setInterval(this.update_counter, 1000 * 10);// 10秒统计一次
         this.get_counter_interval = setInterval(this.get_counter, 1000 * 5);// 5秒统计一次
     };
