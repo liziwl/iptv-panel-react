@@ -108,7 +108,7 @@ class TVLayout extends React.Component {
             axios.post(`${process.env.REACT_APP_SERVER_URL}/status/online`, data)
                 .then(response => {
                     let count = response.data['online_uv'];
-                    this.setState({'online_uv': count});
+                    this.setState({online_uv: count});
                 });
         }
     }
@@ -163,10 +163,18 @@ class TVLayout extends React.Component {
     componentDidMount() {
         // Simple GET request using axios
         this.init_channels();
-        setTimeout(this.update_counter, 500)
-        setTimeout(this.get_counter, 500)
-        this.update_counter_interval = setInterval(this.update_counter, 1000 * 10);// 10秒统计一次
-        this.get_counter_interval = setInterval(this.get_counter, 1000 * 5);// 5秒统计一次
+        setTimeout(() => {
+            this.update_counter();
+        }, 500);
+        setTimeout(() => {
+            this.get_counter();
+        }, 500);
+        this.update_counter_interval = setInterval(() => {
+            this.update_counter();
+        }, 1000 * 10);// 10秒统计一次
+        this.get_counter_interval = setInterval(() => {
+            this.get_counter();
+        }, 1000 * 5);// 5秒统计一次    
     };
 
 
