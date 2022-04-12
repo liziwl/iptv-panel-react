@@ -4,12 +4,10 @@ import "./Logo.css"
 class Logo extends React.Component {
     render() {
         return (
-            <a href="/">
-                <div className="logo">
-                    <img src="/logo.svg" alt="logo"/>
-                    <span>IPTV</span>
-                </div>
-            </a>
+            <div className="logo">
+                <a href="/"><img src="/logo.svg" alt="logo"/></a>
+                <span><a href="/">IPTV</a></span>
+            </div>
         )
     }
 }

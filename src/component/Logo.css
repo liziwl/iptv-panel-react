@@ -21,7 +21,10 @@
     vertical-align: middle;
 }
 
-a:link, a:visited, a:hover, a:active {
+.logo span a:link,
+.logo span a:visited,
+.logo span a:hover,
+.logo span a:active {
     color: inherit;
     /*color: rgba(0, 0, 0, 0.85);*/
     text-decoration: none;
