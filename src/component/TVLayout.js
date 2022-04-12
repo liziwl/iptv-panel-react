@@ -260,7 +260,8 @@ class TVLayout extends React.Component {
                                                 liveTitle: item.Name
                                             });
                                         }}
-                                ><Link to={`/tv?category=${this.state.categoryActive}&vid=${item.Vid}`}>{item.Name}</Link></Button>
+                                ><Link
+                                    to={`/tv?category=${this.state.categoryActive}&vid=${item.Vid}`}>{item.Name}</Link></Button>
                             </List.Item>
                         )}
                     />
@@ -302,10 +303,10 @@ class TVLayout extends React.Component {
                             onClick={this.handleSelect}
                             style={{height: '100%', borderRight: 0}}
                         >
-                            <Menu.Item icon={<VideoCameraOutlined/>} key="高清频道">高清频道</Menu.Item>
-                            <Menu.Item icon={<VideoCameraOutlined/>} key="特色频道">特色频道</Menu.Item>
-                            <Menu.Item icon={<VideoCameraOutlined/>} key="央视标清">央视标清</Menu.Item>
-                            <Menu.Item icon={<VideoCameraOutlined/>} key="其他标清">其他标清</Menu.Item>
+                            <Menu.Item icon={<VideoCameraOutlined/>} key="高清频道"><Link to={`/tv?category=高清频道`}>高清频道</Link></Menu.Item>
+                            <Menu.Item icon={<VideoCameraOutlined/>} key="特色频道"><Link to={`/tv?category=特色频道`}>特色频道</Link></Menu.Item>
+                            <Menu.Item icon={<VideoCameraOutlined/>} key="央视标清"><Link to={`/tv?category=央视标清`}>央视标清</Link></Menu.Item>
+                            <Menu.Item icon={<VideoCameraOutlined/>} key="其他标清"><Link to={`/tv?category=其他标清`}>其他标清</Link></Menu.Item>
                         </Menu>
                     </Sider>
                     <Layout>
@@ -351,7 +352,8 @@ class TVLayout extends React.Component {
                                                             });
                                                             this.onCloseDrawer();
                                                         }}
-                                                ><Link to={`/tv?category=${this.state.categoryActive}&vid=${item.Vid}`}>{item.Name}</Link></Button>
+                                                ><Link
+                                                    to={`/tv?category=${this.state.categoryActive}&vid=${item.Vid}`}>{item.Name}</Link></Button>
                                             </List.Item>
                                         )}
                                     />
