@@ -54,9 +54,9 @@ export default function NVideo(props) {
                     startSecond: 1,
                 },
                 volumeVertical: true,
-                // controls: [
-                //     ['play', 'volume', 'spacer', 'airplay', 'web-fullscreen', 'fullscreen'],
-                // ],
+                controls: [
+                    ['play', 'volume', 'spacer', 'airplay', 'web-fullscreen', 'fullscreen'],
+                ],
                 live: true,
                 themeColor: 'rgba(35,173,229, 1)',
                 progressBg: 'rgba(35,173,229, 1)',
