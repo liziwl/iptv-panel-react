@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import Player, {EVENT} from 'nplayer'
 import Hls from 'hls.js'
+import './NVideo.css'
 
 NVideo.defaultProps = {
     width: '500px',
