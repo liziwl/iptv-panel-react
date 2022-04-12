@@ -49,14 +49,33 @@ export default function NVideo(props) {
     useEffect(() => {
         if (typeof document === 'undefined') return;
 
+        const res = {
+            isTouch: (('ontouchstart' in window)
+                || (navigator.maxTouchPoints > 0)
+                || (navigator.msMaxTouchPoints > 0)),
+        }
+
+
         if (url) {
             const player = new Player({
                 thumbnail: {
                     startSecond: 1,
                 },
                 volumeVertical: true,
+                contextMenus: ['pip', 'version'],
+                videoProps: {
+                    preload: 'auto',
+                    playsinline: 'true',
+                },
+                bpControls: {
+                    650: [
+                        ['play', res.isTouch ? '' : 'volume', 'time', 'web-fullscreen', 'fullscreen'],
+                        [],
+                        ['spacer', 'airplay'],
+                    ]
+                },
                 controls: [
-                    ['play', 'volume', 'spacer', 'airplay', 'web-fullscreen', 'fullscreen'],
+                    ['play', res.isTouch ? '' : 'volume', 'time', 'spacer', 'airplay', 'web-fullscreen', 'fullscreen'],
                 ],
                 live: true,
                 themeColor: 'rgba(35,173,229, 1)',
