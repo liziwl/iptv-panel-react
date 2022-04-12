@@ -29,3 +29,11 @@ li.ant-list-item{
 .site-layout-background {
     background: #fff;
 }
+
+@media (any-hover: hover) {
+    .nplayer_control:hover {
+        cursor: default !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+    }
+}
