@@ -8,12 +8,24 @@ import HeaderMenu from "./HeaderMenu"
 import axios from "axios";
 import PageFooter from "./PageFooter";
 import './TVLayout.css';
+import {Link, useSearchParams} from "react-router-dom";
 
 
 const {Header, Content, Sider} = Layout;
 const {Title} = Typography;
 const {Search} = Input;
 
+function tvLayoutWithRouter(TVLayout) {
+    return (props) => {
+        // let [searchParams, setSearchParams] = useSearchParams();
+        let [searchParams] = useSearchParams();
+        const params = {
+            vid: searchParams.get('vid'),
+            category: searchParams.get('category')
+        }
+        return <TVLayout {...props} params={params}/>
+    }
+}
 
 class TVLayout extends React.Component {
 
@@ -139,11 +151,30 @@ class TVLayout extends React.Component {
                             'allChannels': allChannels
                         }
                     }, () => {
-                        const initIndex = 0;
-                        const initKey = '高清频道';
+                        let initKey;
+                        if (this.props.params.category) {
+                            initKey = this.props.params.category;
+                        } else {
+                            initKey = '高清频道';
+                        }
+
+                        let initVid;
+                        let initName;
+                        if (this.props.params.vid) {
+                            const matches = this.state.channels.allChannels.find(o => o.Vid.toLowerCase() === this.props.params.vid.toLowerCase());
+                            if (matches) {
+                                initVid = matches['Vid'];
+                                initName = matches['Name'];
+                            }
+                        }
+                        if (initVid === undefined) {
+                            const initIndex = 0;
+                            initVid = this.state.channels[initKey][initIndex]['Vid'];
+                            initName = this.state.channels[initKey][initIndex]['Name'];
+                        }
                         this.setState({
-                            url: this.urlFormat(this.state.channels[initKey][initIndex]['Vid']),
-                            liveTitle: this.state.channels[initKey][initIndex]['Name'],
+                            url: this.urlFormat(initVid),
+                            liveTitle: initName,
                             categoryActive: initKey,
                         }, () => {
                             this.resetChannelsList();
@@ -229,7 +260,7 @@ class TVLayout extends React.Component {
                                                 liveTitle: item.Name
                                             });
                                         }}
-                                >{item.Name}</Button>
+                                ><Link to={`/tv?category=${this.state.categoryActive}&vid=${item.Vid}`}>{item.Name}</Link></Button>
                             </List.Item>
                         )}
                     />
@@ -267,7 +298,7 @@ class TVLayout extends React.Component {
                         <Menu
                             mode="inline"
                             theme="dark"
-                            defaultSelectedKeys={['高清频道']}
+                            selectedKeys={[this.state.categoryActive]}
                             onClick={this.handleSelect}
                             style={{height: '100%', borderRight: 0}}
                         >
@@ -320,7 +351,7 @@ class TVLayout extends React.Component {
                                                             });
                                                             this.onCloseDrawer();
                                                         }}
-                                                >{item.Name}</Button>
+                                                ><Link to={`/tv?category=${this.state.categoryActive}&vid=${item.Vid}`}>{item.Name}</Link></Button>
                                             </List.Item>
                                         )}
                                     />
@@ -353,4 +384,4 @@ class TVLayout extends React.Component {
     }
 }
 
-export default TVLayout;
+export default tvLayoutWithRouter(TVLayout);
