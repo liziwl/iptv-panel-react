@@ -333,14 +333,14 @@ class TVLayout extends React.Component {
                         collapsed={this.state.collapsed}
                         onBreakpoint={broken => {
                             this.setState({mobileMode: broken});
-                            console.log('broken', broken);
+                            // console.log('broken', broken);
                         }}
                         onCollapse={(collapsed, type) => {
                             this.setState({
                                 collapsed: collapsed,
                                 collapsedType: type
                             });
-                            console.log(collapsed, type);
+                            // console.log(collapsed, type);
                         }}
                     >
                         <Logo/>
