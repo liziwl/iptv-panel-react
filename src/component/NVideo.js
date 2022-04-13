@@ -54,7 +54,7 @@ export default function NVideo(props) {
         registerIcon('cog', createIcon(cog));
         registerIcon('webEnterFullscreen', createIcon(webFull));
         registerIcon('enterFullscreen', createIcon(full));
-        
+
         if (url) {
             const player = new Player({
                 thumbnail: {
