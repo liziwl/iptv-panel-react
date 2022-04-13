@@ -188,7 +188,7 @@ class TVLayout extends React.Component {
                         } else {
                             // 初始化无搜索参数
                             if (this.props.params.category) {
-                                const validCategory = this.props.params.category in Object.keys(this.state.channels);
+                                const validCategory = Object.keys(this.state.channels).includes(this.props.params.category);
                                 if (validCategory) {
                                     initKey = this.props.params.category;
                                 } else {
