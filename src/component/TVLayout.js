@@ -8,7 +8,7 @@ import HeaderMenu from "./HeaderMenu";
 import axios from "axios";
 import PageFooter from "./PageFooter";
 import './TVLayout.css';
-import {Link, useSearchParams} from "react-router-dom";
+import {Link, useNavigate, useSearchParams} from "react-router-dom";
 
 
 const {Header, Content, Sider} = Layout;
@@ -18,12 +18,14 @@ const {Search} = Input;
 function tvLayoutWithRouter(TVLayout) {
     return (props) => {
         let [searchParams, setSearchParams] = useSearchParams();
+        let navigate = useNavigate();
         const params = {
             vid: searchParams.get('vid'),
             category: searchParams.get('category'),
             query: searchParams.get('query'),
         };
-        return (<TVLayout {...props} setSearchParams={setSearchParams} searchParams={searchParams} params={params}/>);
+        return (<TVLayout {...props} setSearchParams={setSearchParams} searchParams={searchParams}
+                          navigateRouter={navigate} params={params}/>);
     };
 }
 
@@ -186,7 +188,14 @@ class TVLayout extends React.Component {
                         } else {
                             // 初始化无搜索参数
                             if (this.props.params.category) {
-                                initKey = this.props.params.category;
+                                const validCategory = this.props.params.category in Object.keys(this.state.channels);
+                                if (validCategory) {
+                                    initKey = this.props.params.category;
+                                } else {
+                                    initKey = '高清频道';
+                                    this.props.navigateRouter("/404");
+                                    return;
+                                }
                             } else {
                                 initKey = '高清频道';
                             }
@@ -197,6 +206,9 @@ class TVLayout extends React.Component {
                                 if (matches) {
                                     initVid = matches['Vid'];
                                     initName = matches['Name'];
+                                } else {
+                                    this.props.navigateRouter("/404");
+                                    return;
                                 }
                             }
                             if (initVid === undefined) {
@@ -220,6 +232,8 @@ class TVLayout extends React.Component {
 
 
     componentWillUnmount() {
+        clearTimeout(this.update_counter_init);
+        clearTimeout(this.get_counter_init);
         clearInterval(this.update_counter_interval);
         clearInterval(this.get_counter_interval);
     }
@@ -227,10 +241,10 @@ class TVLayout extends React.Component {
     componentDidMount() {
         // Simple GET request using axios
         this.init_channels();
-        setTimeout(() => {
+        this.update_counter_init = setTimeout(() => {
             this.update_counter();
         }, 500);
-        setTimeout(() => {
+        this.get_counter_init = setTimeout(() => {
             this.get_counter();
         }, 500);
         this.update_counter_interval = setInterval(() => {
