@@ -3,8 +3,8 @@ import {Button, Drawer, Input, Layout, List, Menu, Space, Typography} from 'antd
 import {VideoCameraOutlined} from '@ant-design/icons';
 // import Video from "./Video";
 import {default as Video} from "./NVideo";
-import Logo from "./Logo"
-import HeaderMenu from "./HeaderMenu"
+import Logo from "./Logo";
+import HeaderMenu from "./HeaderMenu";
 import axios from "axios";
 import PageFooter from "./PageFooter";
 import './TVLayout.css';
@@ -22,9 +22,9 @@ function tvLayoutWithRouter(TVLayout) {
             vid: searchParams.get('vid'),
             category: searchParams.get('category'),
             query: searchParams.get('query'),
-        }
+        };
         return <TVLayout {...props} setSearchParams={setSearchParams} searchParams={searchParams} params={params}/>
-    }
+    };
 }
 
 class TVLayout extends React.Component {
@@ -32,7 +32,7 @@ class TVLayout extends React.Component {
     urlFormat = key => {
         const url = `${process.env.REACT_APP_SERVER_URL}/hls/${key}.m3u8`;
         this.setState({vid: key});
-        return url
+        return url;
     };
 
     state = {
@@ -165,41 +165,53 @@ class TVLayout extends React.Component {
                         }
                     }, () => {
                         let initKey;
-                        if (this.props.params.category) {
-                            initKey = this.props.params.category;
+                        if (this.props.params.query) {
+                            // 初始化存在搜索参数
+                            initKey = '';
+                            let initVid;
+                            let initName;
+                            if (this.props.params.vid) {
+                                const matches = this.state.channels.allChannels.find(o => o.Vid.toLowerCase() === this.props.params.vid.toLowerCase());
+                                if (matches) {
+                                    initVid = matches['Vid'];
+                                    initName = matches['Name'];
+                                    this.setState({
+                                        url: this.urlFormat(initVid),
+                                        liveTitle: initName,
+                                        categoryActive: initKey,
+                                    });
+                                }
+                            }
+                            this.handleSearch(this.props.params.query);
                         } else {
-                            if (this.props.params.query) {
-                                initKey = '高清频道';
+                            // 初始化无搜索参数
+                            if (this.props.params.category) {
+                                initKey = this.props.params.category;
                             } else {
                                 initKey = '高清频道';
                             }
-                        }
-
-                        let initVid;
-                        let initName;
-                        if (this.props.params.vid) {
-                            const matches = this.state.channels.allChannels.find(o => o.Vid.toLowerCase() === this.props.params.vid.toLowerCase());
-                            if (matches) {
-                                initVid = matches['Vid'];
-                                initName = matches['Name'];
+                            let initVid;
+                            let initName;
+                            if (this.props.params.vid) {
+                                const matches = this.state.channels.allChannels.find(o => o.Vid.toLowerCase() === this.props.params.vid.toLowerCase());
+                                if (matches) {
+                                    initVid = matches['Vid'];
+                                    initName = matches['Name'];
+                                }
                             }
-                        }
-                        if (initVid === undefined) {
-                            const initIndex = 0;
-                            initVid = this.state.channels[initKey][initIndex]['Vid'];
-                            initName = this.state.channels[initKey][initIndex]['Name'];
-                        }
-                        this.setState({
-                            url: this.urlFormat(initVid),
-                            liveTitle: initName,
-                            categoryActive: initKey,
-                        }, () => {
-                            if (this.props.params.query) {
-                                this.handleSearch(this.props.params.query);
-                            } else {
+                            if (initVid === undefined) {
+                                const initIndex = 0;
+                                initVid = this.state.channels[initKey][initIndex]['Vid'];
+                                initName = this.state.channels[initKey][initIndex]['Name'];
+                            }
+                            this.setState({
+                                url: this.urlFormat(initVid),
+                                liveTitle: initName,
+                                categoryActive: initKey,
+                            }, () => {
                                 this.resetChannelsList();
-                            }
-                        });
+                            });
+                        }
                     });
                     // console.log(this.state.channels);
                 }
@@ -246,7 +258,7 @@ class TVLayout extends React.Component {
     render() {
         let scrollableDiv = null;
         let switchChannelBtn = null;
-        let videoHeight = "auto"
+        let videoHeight = "auto";
         const {online_uv} = this.state;
         if (!this.state.mobileMode) {
             scrollableDiv = (
@@ -269,54 +281,47 @@ class TVLayout extends React.Component {
                         bordered
                         dataSource={this.state.channelsActive}
                         renderItem={item => {
+                            function itemWarp(child) {
+                                return (
+                                    <List.Item>
+                                        <Button type="text"
+                                                style={{
+                                                    width: '100%',
+                                                    textAlign: 'left'
+                                                }}
+                                                onClick={() => {
+                                                    this.setState({
+                                                        url: this.urlFormat(item.Vid),
+                                                        liveTitle: item.Name
+                                                    });
+                                                }}
+                                        >{child}</Button>
+                                    </List.Item>
+                                );
+                            }
+
                             if (this.props.searchParams.has("query")) {
-                                return (
-                                    <List.Item>
-                                        <Button type="text"
-                                                style={{
-                                                    width: '100%',
-                                                    textAlign: 'left'
-                                                }}
-                                                onClick={() => {
-                                                    this.setState({
-                                                        url: this.urlFormat(item.Vid),
-                                                        liveTitle: item.Name
-                                                    });
-                                                }}
-                                        ><Link
-                                            to={`/tv?query=${this.props.searchParams.get("query")}&vid=${item.Vid}`}>{item.Name}</Link></Button>
-                                    </List.Item>
-                                )
+                                const child = <Link
+                                    to={`/tv?query=${this.props.searchParams.get("query")}&vid=${item.Vid}`}>{item.Name}</Link>;
+                                itemWarp(child);
+                                return itemWarp(child);
                             } else {
-                                return (
-                                    <List.Item>
-                                        <Button type="text"
-                                                style={{
-                                                    width: '100%',
-                                                    textAlign: 'left'
-                                                }}
-                                                onClick={() => {
-                                                    this.setState({
-                                                        url: this.urlFormat(item.Vid),
-                                                        liveTitle: item.Name
-                                                    });
-                                                }}
-                                        ><Link
-                                            to={`/tv?category=${this.state.categoryActive}&vid=${item.Vid}`}>{item.Name}</Link></Button>
-                                    </List.Item>
-                                )
+                                const child = <Link
+                                    to={`/tv?category=${this.state.categoryActive}&vid=${item.Vid}`}>{item.Name}</Link>;
+                                itemWarp(child);
+                                return itemWarp(child);
                             }
                         }}
                     />
                 </div>
-            )
-            videoHeight = 'calc(70vh - 60pt)'
+            );
+            videoHeight = 'calc(70vh - 60pt)';
         } else {
             switchChannelBtn = (
                 <Button type="primary" size="large"
                         style={{width: '100%'}}
                         onClick={this.showDrawer}>切换频道</Button>
-            )
+            );
         }
 
         return (
@@ -334,7 +339,7 @@ class TVLayout extends React.Component {
                             this.setState({
                                 collapsed: collapsed,
                                 collapsedType: type
-                            })
+                            });
                             console.log(collapsed, type);
                         }}
                     >
@@ -434,7 +439,7 @@ class TVLayout extends React.Component {
                 </Layout>
 
             </div>
-        )
+        );
     }
 }
 
