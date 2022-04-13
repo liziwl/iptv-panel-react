@@ -17,13 +17,13 @@ const {Search} = Input;
 
 function tvLayoutWithRouter(TVLayout) {
     return (props) => {
-        // let [searchParams, setSearchParams] = useSearchParams();
-        let [searchParams] = useSearchParams();
+        let [searchParams, setSearchParams] = useSearchParams();
         const params = {
             vid: searchParams.get('vid'),
-            category: searchParams.get('category')
+            category: searchParams.get('category'),
+            query: searchParams.get('query'),
         }
-        return <TVLayout {...props} params={params}/>
+        return <TVLayout {...props} setSearchParams={setSearchParams} searchParams={searchParams} params={params}/>
     }
 }
 
@@ -60,6 +60,12 @@ class TVLayout extends React.Component {
             channelListTitle: `${prefix}${this.state.categoryActive}`,
             channelsActive: this.state.channels[this.state.categoryActive]
         });
+        if (this.props.searchParams.has("query")) {
+            // 因为 vid 有可能不在当前 categoryActive 中，所以不设置。
+            this.props.setSearchParams({
+                vid: this.state.vid
+            });
+        }
     };
 
     onLiveSearch = e => {
@@ -83,8 +89,15 @@ class TVLayout extends React.Component {
     handleSearch = searchValue => {
         // console.log('use value', searchValue);
         if (searchValue === '') {
+            this.resetChannelsList();
             return;
         }
+
+        let tmpParams = this.props.searchParams;
+        tmpParams.delete("category");
+        tmpParams.set("query", searchValue);
+        this.props.setSearchParams(tmpParams);
+
         const matches = this.state.channels.allChannels.filter(x => x.Name.toLowerCase().includes(searchValue.toLowerCase()));
         this.setState({
             channelListTitle: `搜索结果 - ${searchValue}`,
@@ -155,7 +168,11 @@ class TVLayout extends React.Component {
                         if (this.props.params.category) {
                             initKey = this.props.params.category;
                         } else {
-                            initKey = '高清频道';
+                            if (this.props.params.query) {
+                                initKey = '高清频道';
+                            } else {
+                                initKey = '高清频道';
+                            }
                         }
 
                         let initVid;
@@ -177,7 +194,11 @@ class TVLayout extends React.Component {
                             liveTitle: initName,
                             categoryActive: initKey,
                         }, () => {
-                            this.resetChannelsList();
+                            if (this.props.params.query) {
+                                this.handleSearch(this.props.params.query);
+                            } else {
+                                this.resetChannelsList();
+                            }
                         });
                     });
                     // console.log(this.state.channels);
@@ -247,23 +268,45 @@ class TVLayout extends React.Component {
                         }}>{this.state.channelListTitle}</div>}
                         bordered
                         dataSource={this.state.channelsActive}
-                        renderItem={item => (
-                            <List.Item>
-                                <Button type="text"
-                                        style={{
-                                            width: '100%',
-                                            textAlign: 'left'
-                                        }}
-                                        onClick={() => {
-                                            this.setState({
-                                                url: this.urlFormat(item.Vid),
-                                                liveTitle: item.Name
-                                            });
-                                        }}
-                                ><Link
-                                    to={`/tv?category=${this.state.categoryActive}&vid=${item.Vid}`}>{item.Name}</Link></Button>
-                            </List.Item>
-                        )}
+                        renderItem={item => {
+                            if (this.props.searchParams.has("query")) {
+                                return (
+                                    <List.Item>
+                                        <Button type="text"
+                                                style={{
+                                                    width: '100%',
+                                                    textAlign: 'left'
+                                                }}
+                                                onClick={() => {
+                                                    this.setState({
+                                                        url: this.urlFormat(item.Vid),
+                                                        liveTitle: item.Name
+                                                    });
+                                                }}
+                                        ><Link
+                                            to={`/tv?query=${this.props.searchParams.get("query")}&vid=${item.Vid}`}>{item.Name}</Link></Button>
+                                    </List.Item>
+                                )
+                            } else {
+                                return (
+                                    <List.Item>
+                                        <Button type="text"
+                                                style={{
+                                                    width: '100%',
+                                                    textAlign: 'left'
+                                                }}
+                                                onClick={() => {
+                                                    this.setState({
+                                                        url: this.urlFormat(item.Vid),
+                                                        liveTitle: item.Name
+                                                    });
+                                                }}
+                                        ><Link
+                                            to={`/tv?category=${this.state.categoryActive}&vid=${item.Vid}`}>{item.Name}</Link></Button>
+                                    </List.Item>
+                                )
+                            }
+                        }}
                     />
                 </div>
             )
@@ -303,10 +346,18 @@ class TVLayout extends React.Component {
                             onClick={this.handleSelect}
                             style={{height: '100%', borderRight: 0}}
                         >
-                            <Menu.Item icon={<VideoCameraOutlined/>} key="高清频道"><Link to={`/tv?category=高清频道`}>高清频道</Link></Menu.Item>
-                            <Menu.Item icon={<VideoCameraOutlined/>} key="特色频道"><Link to={`/tv?category=特色频道`}>特色频道</Link></Menu.Item>
-                            <Menu.Item icon={<VideoCameraOutlined/>} key="央视标清"><Link to={`/tv?category=央视标清`}>央视标清</Link></Menu.Item>
-                            <Menu.Item icon={<VideoCameraOutlined/>} key="其他标清"><Link to={`/tv?category=其他标清`}>其他标清</Link></Menu.Item>
+                            <Menu.Item icon={<VideoCameraOutlined/>} key="高清频道">
+                                <Link to={`/tv?category=高清频道`}>高清频道</Link>
+                            </Menu.Item>
+                            <Menu.Item icon={<VideoCameraOutlined/>} key="特色频道">
+                                <Link to={`/tv?category=特色频道`}>特色频道</Link>
+                            </Menu.Item>
+                            <Menu.Item icon={<VideoCameraOutlined/>} key="央视标清">
+                                <Link to={`/tv?category=央视标清`}>央视标清</Link>
+                            </Menu.Item>
+                            <Menu.Item icon={<VideoCameraOutlined/>} key="其他标清">
+                                <Link to={`/tv?category=其他标清`}>其他标清</Link>
+                            </Menu.Item>
                         </Menu>
                     </Sider>
                     <Layout>
@@ -319,6 +370,7 @@ class TVLayout extends React.Component {
                             <Search placeholder="频道搜索"
                                     size="large"
                                     allowClear
+                                    defaultValue={this.props.params.query}
                                     onChange={this.onLiveSearch}
                                     onSearch={this.handleSearch}
                                     style={{width: 200}}
