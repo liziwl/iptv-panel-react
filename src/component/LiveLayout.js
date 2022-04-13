@@ -33,10 +33,10 @@ class LiveLayout extends React.Component {
 
 
     componentDidMount() {
-        setTimeout(() => {
+        this.update_counter_init = setTimeout(() => {
             this.update_counter();
         }, 500);
-        setTimeout(() => {
+        this.get_counter_init = setTimeout(() => {
             this.get_counter();
         }, 500);
         this.update_counter_interval = setInterval(() => {
@@ -48,6 +48,8 @@ class LiveLayout extends React.Component {
     }
 
     componentWillUnmount() {
+        clearTimeout(this.update_counter_init);
+        clearTimeout(this.get_counter_init);
         clearInterval(this.update_counter_interval);
         clearInterval(this.get_counter_interval);
     }

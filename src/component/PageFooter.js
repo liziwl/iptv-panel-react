@@ -23,7 +23,7 @@ class PageFooter extends PureComponent {
 
 
     componentDidMount() {
-        setTimeout(() => {
+        this.get_counter_init = setTimeout(() => {
             this.get_counter();
         }, 500);
         this.get_counter_interval = setInterval(() => {
@@ -32,6 +32,7 @@ class PageFooter extends PureComponent {
     }
 
     componentWillUnmount() {
+        clearTimeout(this.get_counter_init);
         clearInterval(this.get_counter_interval);
     }
 
