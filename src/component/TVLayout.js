@@ -23,7 +23,7 @@ function tvLayoutWithRouter(TVLayout) {
             category: searchParams.get('category'),
             query: searchParams.get('query'),
         };
-        return <TVLayout {...props} setSearchParams={setSearchParams} searchParams={searchParams} params={params}/>
+        return (<TVLayout {...props} setSearchParams={setSearchParams} searchParams={searchParams} params={params}/>);
     };
 }
 

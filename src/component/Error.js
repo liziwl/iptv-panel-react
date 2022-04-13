@@ -3,7 +3,7 @@ import {Layout} from 'antd';
 import PageFooter from "./PageFooter";
 import Logo from "./Logo";
 import {Link} from "react-router-dom";
-import "./Error.css"
+import "./Error.css";
 
 const {Header, Content} = Layout;
 
