@@ -1,10 +1,10 @@
 import React from "react";
 import {Layout, Space, Typography} from 'antd';
 import PageFooter from "./PageFooter";
-import HeaderMenu from "./HeaderMenu"
+import HeaderMenu from "./HeaderMenu";
 import {default as Video} from "./NVideo";
 import Logo from "./Logo";
-import "./LiveLayout.css"
+import "./LiveLayout.css";
 import axios from "axios";
 
 const {Header, Content} = Layout;
@@ -85,7 +85,7 @@ class LiveLayout extends React.Component {
                 </Content>
                 <PageFooter/>
             </Layout>
-        )
+        );
     }
 }
 

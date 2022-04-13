@@ -63,7 +63,7 @@ class PageFooter extends PureComponent {
                     </Col>
                 </Row>
             </Footer>
-        )
+        );
     }
 }
 

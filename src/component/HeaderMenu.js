@@ -13,7 +13,7 @@ class HeaderMenu extends PureComponent {
                 <Menu.Item key="电视频道"><Link to="/tv">电视频道</Link></Menu.Item>
                 <Menu.Item key="直播频道"><Link to="/live">直播频道</Link></Menu.Item>
             </Menu>
-        )
+        );
     }
 }
 

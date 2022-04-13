@@ -1,5 +1,5 @@
 import React from "react";
-import "./Logo.css"
+import "./Logo.css";
 
 class Logo extends React.Component {
     render() {
@@ -8,7 +8,7 @@ class Logo extends React.Component {
                 <a href="/"><img src="/logo.svg" alt="logo"/></a>
                 <span><a href="/">IPTV</a></span>
             </div>
-        )
+        );
     }
 }
 

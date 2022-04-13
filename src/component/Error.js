@@ -25,7 +25,7 @@ class Error extends React.Component {
                 </Content>
                 <PageFooter/>
             </Layout>
-        )
+        );
     }
 }
 
