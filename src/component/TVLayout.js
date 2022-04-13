@@ -281,7 +281,7 @@ class TVLayout extends React.Component {
                         bordered
                         dataSource={this.state.channelsActive}
                         renderItem={item => {
-                            function itemWarp(child) {
+                            function itemWarp(child, onClickCallback) {
                                 return (
                                     <List.Item>
                                         <Button type="text"
@@ -289,27 +289,27 @@ class TVLayout extends React.Component {
                                                     width: '100%',
                                                     textAlign: 'left'
                                                 }}
-                                                onClick={() => {
-                                                    this.setState({
-                                                        url: this.urlFormat(item.Vid),
-                                                        liveTitle: item.Name
-                                                    });
-                                                }}
+                                                onClick={onClickCallback}
                                         >{child}</Button>
                                     </List.Item>
                                 );
                             }
 
+                            const callback = () => {
+                                this.setState({
+                                    url: this.urlFormat(item.Vid),
+                                    liveTitle: item.Name
+                                });
+                            };
+
                             if (this.props.searchParams.has("query")) {
                                 const child = <Link
                                     to={`/tv?query=${this.props.searchParams.get("query")}&vid=${item.Vid}`}>{item.Name}</Link>;
-                                itemWarp(child);
-                                return itemWarp(child);
+                                return itemWarp(child, callback);
                             } else {
                                 const child = <Link
                                     to={`/tv?category=${this.state.categoryActive}&vid=${item.Vid}`}>{item.Name}</Link>;
-                                itemWarp(child);
-                                return itemWarp(child);
+                                return itemWarp(child, callback);
                             }
                         }}
                     />
