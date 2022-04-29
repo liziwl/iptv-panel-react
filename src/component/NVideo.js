@@ -66,6 +66,8 @@ export default function NVideo(props) {
                 videoProps: {
                     preload: 'auto',
                     playsinline: 'true',
+                    autoplay: 'true',
+                    muted: 'true',
                 },
                 bpControls: {
                     650: [
