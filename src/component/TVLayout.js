@@ -2,7 +2,8 @@ import React from "react";
 import {Button, Drawer, Input, Layout, List, Menu, Space, Typography} from 'antd';
 import {VideoCameraOutlined} from '@ant-design/icons';
 // import Video from "./Video";
-import {default as Video} from "./NVideo";
+// import {default as Video} from "./NVideo";
+import {default as Video} from "./ArtVideo";
 import Logo from "./Logo";
 import HeaderMenu from "./HeaderMenu";
 import axios from "axios";
@@ -339,6 +340,7 @@ class TVLayout extends React.Component {
                         style={{width: '100%'}}
                         onClick={this.showDrawer}>切换频道</Button>
             );
+            videoHeight = 'calc(30vh)';
         }
 
         return (

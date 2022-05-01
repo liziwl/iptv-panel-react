@@ -13,6 +13,7 @@
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
     "antd": "^4.19.4",
+    "artplayer": "^4.3.13",
     "axios": "^0.26.1",
     "hls.js": "^1.1.5",
     "nplayer": "^1.0.10",

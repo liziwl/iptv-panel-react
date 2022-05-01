@@ -2,7 +2,8 @@ import React from "react";
 import {Layout, Space, Typography} from 'antd';
 import PageFooter from "./PageFooter";
 import HeaderMenu from "./HeaderMenu";
-import {default as Video} from "./NVideo";
+// import {default as Video} from "./NVideo";
+import {default as Video} from "./ArtVideo";
 import Logo from "./Logo";
 import "./LiveLayout.css";
 import axios from "axios";
@@ -73,6 +74,7 @@ class LiveLayout extends React.Component {
                                 <Video
                                     url={url}
                                     width={'auto'}
+                                    height={'calc(30vh)'}
                                 />
                             </div>
                             <Title level={5}>CRA提供的直播服务，直播时间为每日 10:00-20:00</Title>

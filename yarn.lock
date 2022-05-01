@@ -2534,6 +2534,14 @@ array.prototype.flatmap@^1.2.5:
     define-properties "^1.1.3"
     es-abstract "^1.19.0"
 
+artplayer@^4.3.13:
+  version "4.3.13"
+  resolved "https://registry.npmjs.org/artplayer/-/artplayer-4.3.13.tgz#8117d5b57b7d0b9bcfbf730668bb6dcae696617c"
+  integrity sha512-/uvSeOP5XdWJgKkdNPYiYOZdqUwW8qf44QF7p7rklbVdZPTNp4ayyZ0hS1DQktpKYshAjhofSS2kQzGIvobqfA==
+  dependencies:
+    option-validator "^2.0.6"
+    screenfull "^6.0.1"
+
 asap@~2.0.6:
   version "2.0.6"
   resolved "https://registry.npmjs.org/asap/-/asap-2.0.6.tgz"
@@ -5750,7 +5758,7 @@ jsonpointer@^5.0.0:
     array-includes "^3.1.3"
     object.assign "^4.1.2"
 
-kind-of@^6.0.2:
+kind-of@^6.0.2, kind-of@^6.0.3:
   version "6.0.3"
   resolved "https://registry.npmjs.org/kind-of/-/kind-of-6.0.3.tgz"
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
@@ -6307,6 +6315,13 @@ open@^8.0.9, open@^8.4.0:
     define-lazy-prop "^2.0.0"
     is-docker "^2.1.1"
     is-wsl "^2.2.0"
+
+option-validator@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.npmjs.org/option-validator/-/option-validator-2.0.6.tgz#a314dae65e26db5f948ef0ff96fc88f18bb76ed6"
+  integrity sha512-tmZDan2LRIRQyhUGvkff68/O0R8UmF+Btmiiz0SmSw2ng3CfPZB9wJlIjHpe/MKUZqyIZkVIXCrwr1tIN+0Dzg==
+  dependencies:
+    kind-of "^6.0.3"
 
 optionator@^0.8.1:
   version "0.8.3"
@@ -8044,6 +8059,11 @@ schema-utils@^4.0.0:
     ajv "^8.8.0"
     ajv-formats "^2.1.1"
     ajv-keywords "^5.0.0"
+
+screenfull@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.npmjs.org/screenfull/-/screenfull-6.0.1.tgz#3b71e6f06b72d817a8d3be73c45ebe71fa8da1ce"
+  integrity sha512-yzQW+j4zMUBQC51xxWaoDYjxOtl8Kn+xvue3p6v/fv2pIi1jH4AldgVLU8TBfFVgH2x3VXlf3+YiA/AYIPlaew==
 
 scroll-into-view-if-needed@^2.2.25:
   version "2.2.29"
