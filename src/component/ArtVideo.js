@@ -62,6 +62,9 @@ export default function ArtVideo(props) {
                     crossOrigin: 'anonymous',
                 },
             });
+            player.on('ready', () => {
+                player.autoHeight = true;
+            });
             return () => {
                 hls.destroy();
                 player.destroy();

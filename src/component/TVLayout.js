@@ -274,6 +274,7 @@ class TVLayout extends React.Component {
         let scrollableDiv = null;
         let switchChannelBtn = null;
         let videoHeight = "auto";
+        let videoWidth = "auto";
         let spanWidth = "100%";
         const {online_uv} = this.state;
         if (!this.state.mobileMode) {
@@ -340,7 +341,8 @@ class TVLayout extends React.Component {
                         style={{width: '100%'}}
                         onClick={this.showDrawer}>切换频道</Button>
             );
-            videoHeight = 'calc(30vh)';
+            videoWidth='calc(80vw)';
+            // videoHeight = 'calc(30vh)';
         }
 
         return (
@@ -445,7 +447,7 @@ class TVLayout extends React.Component {
                                         <Title level={3}>正在播放：{this.state.liveTitle}</Title>
                                         <Video
                                             url={this.state.url}
-                                            width={'auto'}
+                                            width={videoWidth}
                                             height={videoHeight}
                                         />
                                         {switchChannelBtn}
