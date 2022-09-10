@@ -33,6 +33,7 @@ class TVLayout extends React.Component {
 
     urlFormat = key => {
         const url = `${process.env.REACT_APP_SERVER_URL}/hls/${key}.m3u8`;
+        // const url = 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8'; // for test
         this.setState({vid: key});
         return url;
     };
