@@ -57,7 +57,7 @@ export default function NVideo(props) {
         registerIcon('enterFullscreen', createIcon(full));
 
         if (url) {
-            const player = new Player({
+            let playerOptions = {
                 thumbnail: {
                     startSecond: 1,
                 },
@@ -86,8 +86,15 @@ export default function NVideo(props) {
                 volumeBarLength: res.isMobile ? 0 : 100,
                 progressDot: createIcon(dot, true)(),
                 posterPlayEl: createIcon(playBig)(),
-            });
+            };
 
+            const video = document.createElement('video')
+            if (!Hls.isSupported() && video.canPlayType('application/vnd.apple.mpegurl')) {
+                video.src = url;
+                playerOptions.video = video;
+            }
+
+            const player = new Player(playerOptions);
             player.on(EVENT.WEB_ENTER_FULLSCREEN, () => {
                 document.body.style.overflow = 'hidden';
             });
@@ -96,15 +103,21 @@ export default function NVideo(props) {
             });
 
             const hls = new Hls();
-            hls.on(Hls.Events.MEDIA_ATTACHED, function () {
-                hls.loadSource(url);
-            });
+            if (Hls.isSupported()) {
+                hls.on(Hls.Events.MEDIA_ATTACHED, function () {
+                    hls.loadSource(url);
+                });
+                hls.attachMedia(player.video);
+            }
 
-            hls.attachMedia(player.video);
             player.mount(container.current);
 
             return () => {
-                hls.destroy();
+                if (hls) {
+                    hls.destroy();
+                } else if (video) {
+                    video.src = "";
+                }
                 player.dispose();
             };
         }
