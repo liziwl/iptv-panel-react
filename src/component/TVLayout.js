@@ -342,6 +342,30 @@ class TVLayout extends React.Component {
             );
         }
 
+        let leftMenuItems = [
+            {
+                label: (<Link to={`/tv?category=高清频道`}>高清频道</Link>),
+                key: '高清频道',
+                icon: (<VideoCameraOutlined/>)
+            },
+            {
+                label: (<Link to={`/tv?category=特色频道`}>特色频道</Link>),
+                key: '特色频道',
+                icon: (<VideoCameraOutlined/>)
+            },
+            {
+                label: (<Link to={`/tv?category=央视标清`}>央视标清</Link>),
+                key: '央视标清',
+                icon: (<VideoCameraOutlined/>)
+            },
+            {
+                label: (<Link to={`/tv?category=其他标清`}>其他标清</Link>),
+                key: '其他标清',
+                icon: (<VideoCameraOutlined/>)
+            },
+        ];
+
+
         return (
             <div>
                 <Layout>
@@ -368,20 +392,8 @@ class TVLayout extends React.Component {
                             selectedKeys={[this.state.categoryActive]}
                             onClick={this.handleSelect}
                             style={{height: '100%', borderRight: 0}}
-                        >
-                            <Menu.Item icon={<VideoCameraOutlined/>} key="高清频道">
-                                <Link to={`/tv?category=高清频道`}>高清频道</Link>
-                            </Menu.Item>
-                            <Menu.Item icon={<VideoCameraOutlined/>} key="特色频道">
-                                <Link to={`/tv?category=特色频道`}>特色频道</Link>
-                            </Menu.Item>
-                            <Menu.Item icon={<VideoCameraOutlined/>} key="央视标清">
-                                <Link to={`/tv?category=央视标清`}>央视标清</Link>
-                            </Menu.Item>
-                            <Menu.Item icon={<VideoCameraOutlined/>} key="其他标清">
-                                <Link to={`/tv?category=其他标清`}>其他标清</Link>
-                            </Menu.Item>
-                        </Menu>
+                            items={leftMenuItems}
+                        />
                     </Sider>
                     <Layout>
                         <Header className="site-layout-sub-header-background"
@@ -406,7 +418,7 @@ class TVLayout extends React.Component {
                                     title={this.state.channelListTitle}
                                     placement={this.state.placement}
                                     onClose={this.onCloseDrawer}
-                                    visible={this.state.drawerVisible}
+                                    open={this.state.drawerVisible}
                                     bodyStyle={{paddingTop: 0}}
                                     width={'75vw'}
                                 >
@@ -439,7 +451,7 @@ class TVLayout extends React.Component {
                                 }}>
                                     {scrollableDiv}
                                     <Space direction="vertical" size="small" style={{
-                                            width: spanWidth
+                                        width: spanWidth
                                     }}>
                                         <Title level={3}>正在播放：{this.state.liveTitle}</Title>
                                         <Video
