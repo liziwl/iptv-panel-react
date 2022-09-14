@@ -14,12 +14,12 @@ const items = [
 
 
 const HeaderMenu = ({initKey}) => {
-    return <Menu
+    return (<Menu
         theme="dark"
         mode="horizontal"
         items={items}
         defaultSelectedKeys={[initKey]}
-    />;
+    />);
 };
 HeaderMenu.defaultProps = {
     initKey: '电视频道',
