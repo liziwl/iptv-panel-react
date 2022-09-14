@@ -1,4 +1,3 @@
-import React from 'react';
 import './App.css';
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import TVLayout from "./component/TVLayout";
@@ -7,25 +6,20 @@ import LiveLayout from "./component/LiveLayout";
 // import CustomLayout from "./component/CustomLayout";
 
 
-class App extends React.Component {
-
-    render() {
-        return (
-            <div className="App">
-                {/* HashRouter哈希路由 还是 Browser路由随需求选择 */}
-                <BrowserRouter>
-                    <Routes>
-                        {/* 默认初始化入口 */}
-                        <Route path="/" element={<Navigate to="/tv"/>}/>
-                        <Route path="/tv" element={<TVLayout/>}/>
-                        <Route path="/live" element={<LiveLayout/>}/>
-                        {/* 404页面 */}
-                        <Route path="*" element={<Error/>}/>
-                    </Routes>
-                </BrowserRouter>
-            </div>
-        );
-    }
-}
+const App = () => {
+    return (<div className="App">
+        {/* HashRouter哈希路由 还是 Browser路由随需求选择 */}
+        <BrowserRouter>
+            <Routes>
+                {/* 默认初始化入口 */}
+                <Route path="/" element={<Navigate to="/tv"/>}/>
+                <Route path="/tv" element={<TVLayout/>}/>
+                <Route path="/live" element={<LiveLayout/>}/>
+                {/* 404页面 */}
+                <Route path="*" element={<Error/>}/>
+            </Routes>
+        </BrowserRouter>
+    </div>);
+};
 
 export default App;

@@ -1,22 +1,26 @@
-import React, {PureComponent} from "react";
 import {Menu} from "antd";
 import {Link} from "react-router-dom";
 
-class HeaderMenu extends PureComponent {
-    render() {
-        return (
-            <Menu
-                theme="dark"
-                mode="horizontal"
-                defaultSelectedKeys={[this.props.initKey]}
-            >
-                <Menu.Item key="电视频道"><Link to="/tv">电视频道</Link></Menu.Item>
-                <Menu.Item key="直播频道"><Link to="/live">直播频道</Link></Menu.Item>
-            </Menu>
-        );
-    }
-}
+const items = [
+    {
+        label: (<Link to="/tv">电视频道</Link>),
+        key: '电视频道',
+    },
+    {
+        label: (<Link to="/live">直播频道</Link>),
+        key: '直播频道',
+    },
+];
 
+
+const HeaderMenu = ({initKey}) => {
+    return (<Menu
+        theme="dark"
+        mode="horizontal"
+        items={items}
+        defaultSelectedKeys={[initKey]}
+    />);
+};
 HeaderMenu.defaultProps = {
     initKey: '电视频道',
 };
