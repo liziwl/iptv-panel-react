@@ -46,7 +46,7 @@ class PageFooter extends PureComponent {
                         <FontAwesomeIcon icon={faUser}/> 当前在线人数：{online_uv}
                     </Col>
                     <Col lg={4} sm={12} xs={24}>
-                        <FontAwesomeIcon icon={faHeart}/> 感谢清华IPTV提供电视频道源
+                        <FontAwesomeIcon icon={faHeart}/> 感谢热心网友提供电视频道源
                     </Col>
                     <Col lg={4} sm={12} xs={24}>
                         <FontAwesomeIcon icon={faGithub}/> <a
