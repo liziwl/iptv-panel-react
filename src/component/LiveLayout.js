@@ -12,7 +12,7 @@ const {Title} = Typography;
 
 class LiveLayout extends React.Component {
     state = {
-        online_uv: 0,
+        online_uv: "NaN",
     };
 
     update_counter() {
@@ -33,18 +33,20 @@ class LiveLayout extends React.Component {
 
 
     componentDidMount() {
-        this.update_counter_init = setTimeout(() => {
-            this.update_counter();
-        }, 500);
-        this.get_counter_init = setTimeout(() => {
-            this.get_counter();
-        }, 500);
-        this.update_counter_interval = setInterval(() => {
-            this.update_counter();
-        }, 1000 * 10);// 10秒统计一次
-        this.get_counter_interval = setInterval(() => {
-            this.get_counter();
-        }, 1000 * 5);// 5秒统计一次
+        if (`${process.env.VISITOR_COUNTER_ENABLE}` > 0) {
+            this.update_counter_init = setTimeout(() => {
+                this.update_counter();
+            }, 500);
+            this.get_counter_init = setTimeout(() => {
+                this.get_counter();
+            }, 500);
+            this.update_counter_interval = setInterval(() => {
+                this.update_counter();
+            }, 1000 * 10);// 10秒统计一次
+            this.get_counter_interval = setInterval(() => {
+                this.get_counter();
+            }, 1000 * 5);// 5秒统计一次
+        }
     }
 
     componentWillUnmount() {
@@ -56,7 +58,7 @@ class LiveLayout extends React.Component {
 
 
     render() {
-        const url = "https://live.cra.moe/hls/0/stream.m3u8";
+        const url = "https://test-streams.mux.dev/test_001/stream.m3u8";
         const {online_uv} = this.state;
         return (
             <Layout className="live-layout">
@@ -67,7 +69,7 @@ class LiveLayout extends React.Component {
 
                 <Content style={{margin: '16px 16px 0'}}>
                     <div className="site-layout-background" style={{padding: 24, minHeight: 360}}>
-                        <Title level={3}>CRA Live 核酸检测队伍实况</Title>
+                        <Title level={3}>直播频道（独占）</Title>
                         <Space direction="vertical" size="small">
                             <div style={{maxWidth: '800px'}}>
                                 <Video
@@ -75,13 +77,12 @@ class LiveLayout extends React.Component {
                                     width={'auto'}
                                 />
                             </div>
-                            <Title level={5}>CRA提供的直播服务，直播时间为每日 10:00-20:00</Title>
+                            <Title level={5}>此页不提供频道选择</Title>
                             <Title level={5}>FIND ME ON <a
-                                href="https://sustech.online/"
-                                target="_blank" rel="noreferrer">📚南科手册</a></Title>
+                                href="https://github.com/liziwl"
+                                target="_blank" rel="noreferrer">liziwl@Github</a></Title>
                             <span>直播在线人数：{online_uv}</span>
-                            <span>请大家根据现场排队情况选择人员较少时前往。</span>
-                            <span>本站仅提供实况直播，不会对画面进行录制和存储，也不会使用程序对直播的画面进行任何分析。</span>
+                            <span>如果对本项目感兴趣欢迎 Star。</span>
                         </Space>
                     </div>
                 </Content>

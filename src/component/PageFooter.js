@@ -11,7 +11,7 @@ const {Footer} = Layout;
 class PageFooter extends PureComponent {
 
     state = {
-        online_uv: 0,
+        online_uv: "NaN",
     };
 
     get_counter() {
@@ -23,12 +23,14 @@ class PageFooter extends PureComponent {
 
 
     componentDidMount() {
-        this.get_counter_init = setTimeout(() => {
-            this.get_counter();
-        }, 500);
-        this.get_counter_interval = setInterval(() => {
-            this.get_counter();
-        }, 1000 * 5);// 5秒统计一次
+        if (`${process.env.VISITOR_COUNTER_ENABLE}` > 0) {
+            this.get_counter_init = setTimeout(() => {
+                this.get_counter();
+            }, 500);
+            this.get_counter_interval = setInterval(() => {
+                this.get_counter();
+            }, 1000 * 5);// 5秒统计一次
+        }
     }
 
     componentWillUnmount() {

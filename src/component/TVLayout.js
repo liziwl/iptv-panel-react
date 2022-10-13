@@ -32,8 +32,8 @@ function tvLayoutWithRouter(TVLayout) {
 class TVLayout extends React.Component {
 
     urlFormat = key => {
-        const url = `${process.env.REACT_APP_SERVER_URL}/hls/${key}.m3u8`;
         // const url = 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8'; // for test
+        const url = this.state.channels.allChannels.find(x => x.vid === key)['url'];
         this.setState({vid: key});
         return url;
     };
@@ -44,6 +44,7 @@ class TVLayout extends React.Component {
         liveTitle: '',
         channelListTitle: '',
         categoryActive: '',
+        categories: [],
         channels: {},
         channelsActive: [],
         drawerVisible: false,
@@ -51,7 +52,7 @@ class TVLayout extends React.Component {
         mobileMode: false,
         collapsed: true,
         collapsedType: '',
-        online_uv: 0,
+        online_uv: "NaN",
     };
 
     resetChannelsList = () => {
@@ -101,7 +102,7 @@ class TVLayout extends React.Component {
         tmpParams.set("query", searchValue);
         this.props.setSearchParams(tmpParams);
 
-        const matches = this.state.channels.allChannels.filter(x => x.Name.toLowerCase().includes(searchValue.toLowerCase()));
+        const matches = this.state.channels.allChannels.filter(x => x.name.toLowerCase().includes(searchValue.toLowerCase()));
         this.setState({
             channelListTitle: `搜索结果 - ${searchValue}`,
             channelsActive: matches
@@ -150,22 +151,18 @@ class TVLayout extends React.Component {
 
 
     init_channels() {
-        axios.get('/channels_sustech.json')
+        axios.get('/channels_example.json')
             .then(response => {
-                    let tmp_data = response.data['Categories'];
-                    let cat1 = tmp_data.find(o => o.Name === '高清频道')['Channels'];
-                    let cat2 = tmp_data.find(o => o.Name === '特色频道')['Channels'];
-                    let cat3 = tmp_data.find(o => o.Name === '央视标清')['Channels'];
-                    let cat4 = tmp_data.find(o => o.Name === '其他标清')['Channels'];
-                    let allChannels = cat1.concat(cat2, cat3, cat4);
+                    let categories = response.data['categories'];
+                    let channelData = response.data['data'];
+                    let allChannels = [];
+                    categories.forEach(element => {
+                        allChannels = allChannels.concat(channelData[element]);
+                    });
+                    channelData['allChannels'] = allChannels;
                     this.setState({
-                        channels: {
-                            '高清频道': cat1,
-                            '特色频道': cat2,
-                            '央视标清': cat3,
-                            '其他标清': cat4,
-                            'allChannels': allChannels
-                        }
+                        'categories': categories,
+                        'channels': channelData,
                     }, () => {
                         let initKey;
                         if (this.props.params.query) {
@@ -174,10 +171,10 @@ class TVLayout extends React.Component {
                             let initVid;
                             let initName;
                             if (this.props.params.vid) {
-                                const matches = this.state.channels.allChannels.find(o => o.Vid.toLowerCase() === this.props.params.vid.toLowerCase());
+                                const matches = this.state.channels.allChannels.find(o => o.vid.toLowerCase() === this.props.params.vid.toLowerCase());
                                 if (matches) {
-                                    initVid = matches['Vid'];
-                                    initName = matches['Name'];
+                                    initVid = matches['vid'];
+                                    initName = matches['name'];
                                     this.setState({
                                         url: this.urlFormat(initVid),
                                         liveTitle: initName,
@@ -193,20 +190,20 @@ class TVLayout extends React.Component {
                                 if (validCategory) {
                                     initKey = this.props.params.category;
                                 } else {
-                                    initKey = '高清频道';
+                                    initKey = categories[0];
                                     this.props.navigateRouter("/404");
                                     return;
                                 }
                             } else {
-                                initKey = '高清频道';
+                                initKey = categories[0];
                             }
                             let initVid;
                             let initName;
                             if (this.props.params.vid) {
-                                const matches = this.state.channels.allChannels.find(o => o.Vid.toLowerCase() === this.props.params.vid.toLowerCase());
+                                const matches = this.state.channels.allChannels.find(o => o.vid.toLowerCase() === this.props.params.vid.toLowerCase());
                                 if (matches) {
-                                    initVid = matches['Vid'];
-                                    initName = matches['Name'];
+                                    initVid = matches['vid'];
+                                    initName = matches['name'];
                                 } else {
                                     this.props.navigateRouter("/404");
                                     return;
@@ -214,8 +211,8 @@ class TVLayout extends React.Component {
                             }
                             if (initVid === undefined) {
                                 const initIndex = 0;
-                                initVid = this.state.channels[initKey][initIndex]['Vid'];
-                                initName = this.state.channels[initKey][initIndex]['Name'];
+                                initVid = this.state.channels[initKey][initIndex]['vid'];
+                                initName = this.state.channels[initKey][initIndex]['name'];
                             }
                             this.setState({
                                 url: this.urlFormat(initVid),
@@ -242,26 +239,28 @@ class TVLayout extends React.Component {
     componentDidMount() {
         // Simple GET request using axios
         this.init_channels();
-        this.update_counter_init = setTimeout(() => {
-            this.update_counter();
-        }, 500);
-        this.get_counter_init = setTimeout(() => {
-            this.get_counter();
-        }, 500);
-        this.update_counter_interval = setInterval(() => {
-            this.update_counter();
-        }, 1000 * 10);// 10秒统计一次
-        this.get_counter_interval = setInterval(() => {
-            this.get_counter();
-        }, 1000 * 5);// 5秒统计一次
+        if (`${process.env.VISITOR_COUNTER_ENABLE}` > 0) {
+            this.update_counter_init = setTimeout(() => {
+                this.update_counter();
+            }, 500);
+            this.get_counter_init = setTimeout(() => {
+                this.get_counter();
+            }, 500);
+            this.update_counter_interval = setInterval(() => {
+                this.update_counter();
+            }, 1000 * 10);// 10秒统计一次
+            this.get_counter_interval = setInterval(() => {
+                this.get_counter();
+            }, 1000 * 5);// 5秒统计一次
+        }
     };
 
 
     handleSelect = e => {
         this.setState({
             categoryActive: e.key,
-            url: this.urlFormat(this.state.channels[e.key][0]['Vid']),
-            liveTitle: this.state.channels[e.key][0]['Name']
+            url: this.urlFormat(this.state.channels[e.key][0]['vid']),
+            liveTitle: this.state.channels[e.key][0]['name']
         }, () => {
             this.resetChannelsList();
             if (this.state.collapsedType === 'clickTrigger') {
@@ -314,18 +313,18 @@ class TVLayout extends React.Component {
 
                             const callback = () => {
                                 this.setState({
-                                    url: this.urlFormat(item.Vid),
-                                    liveTitle: item.Name
+                                    url: this.urlFormat(item.vid),
+                                    liveTitle: item.name
                                 });
                             };
 
                             if (this.props.searchParams.has("query")) {
                                 const child = <Link
-                                    to={`/tv?query=${this.props.searchParams.get("query")}&vid=${item.Vid}`}>{item.Name}</Link>;
+                                    to={`/tv?query=${this.props.searchParams.get("query")}&vid=${item.vid}`}>{item.name}</Link>;
                                 return itemWarp(child, callback);
                             } else {
                                 const child = <Link
-                                    to={`/tv?category=${this.state.categoryActive}&vid=${item.Vid}`}>{item.Name}</Link>;
+                                    to={`/tv?category=${this.state.categoryActive}&vid=${item.vid}`}>{item.name}</Link>;
                                 return itemWarp(child, callback);
                             }
                         }}
@@ -342,28 +341,14 @@ class TVLayout extends React.Component {
             );
         }
 
-        let leftMenuItems = [
-            {
-                label: (<Link to={`/tv?category=高清频道`}>高清频道</Link>),
-                key: '高清频道',
+        let leftMenuItems = [];
+        this.state.categories.forEach(element => {
+            leftMenuItems.push({
+                label: (<Link to={'/tv?category=' + element}>{element}</Link>),
+                key: element,
                 icon: (<VideoCameraOutlined/>)
-            },
-            {
-                label: (<Link to={`/tv?category=特色频道`}>特色频道</Link>),
-                key: '特色频道',
-                icon: (<VideoCameraOutlined/>)
-            },
-            {
-                label: (<Link to={`/tv?category=央视标清`}>央视标清</Link>),
-                key: '央视标清',
-                icon: (<VideoCameraOutlined/>)
-            },
-            {
-                label: (<Link to={`/tv?category=其他标清`}>其他标清</Link>),
-                key: '其他标清',
-                icon: (<VideoCameraOutlined/>)
-            },
-        ];
+            })
+        });
 
 
         return (
@@ -434,13 +419,13 @@ class TVLayout extends React.Component {
                                                         }}
                                                         onClick={() => {
                                                             this.setState({
-                                                                url: this.urlFormat(item.Vid),
-                                                                liveTitle: item.Name
+                                                                url: this.urlFormat(item.vid),
+                                                                liveTitle: item.name
                                                             });
                                                             this.onCloseDrawer();
                                                         }}
                                                 ><Link
-                                                    to={`/tv?category=${this.state.categoryActive}&vid=${item.Vid}`}>{item.Name}</Link></Button>
+                                                    to={`/tv?category=${this.state.categoryActive}&vid=${item.vid}`}>{item.name}</Link></Button>
                                             </List.Item>
                                         )}
                                     />

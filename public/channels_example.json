@@ -1,0 +1,22 @@
+{
+   "categories": [
+      "测试频道1",
+      "测试频道2"
+   ],
+   "data": {
+      "测试频道1": [
+         {
+            "name": "ARTE China",
+            "vid": "artechina",
+            "url": "https://test-streams.mux.dev/test_001/stream.m3u8"
+         }
+      ],
+      "测试频道2": [
+         {
+            "name": "Big Buck Bunny",
+            "vid": "x36xhzz",
+            "url": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+         }
+      ]
+   }
+}
