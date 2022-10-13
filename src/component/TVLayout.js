@@ -347,7 +347,7 @@ class TVLayout extends React.Component {
                 label: (<Link to={'/tv?category=' + element}>{element}</Link>),
                 key: element,
                 icon: (<VideoCameraOutlined/>)
-            })
+            });
         });
 
 
