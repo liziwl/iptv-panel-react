@@ -33,6 +33,7 @@ class TVLayout extends React.Component {
 
     urlFormat = key => {
         // const url = 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8'; // for test
+        // const url = `http://vm.liziwl.cn/hls/${key}/index.m3u8`; // use key to router
         const url = this.state.channels.allChannels.find(x => x.vid === key)['url'];
         this.setState({vid: key});
         return url;
