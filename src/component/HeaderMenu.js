@@ -22,7 +22,7 @@ const HeaderMenu = ({initKey}) => {
     />);
 };
 HeaderMenu.defaultProps = {
-    initKey: '电视频道',
+    initKey: items[0].key,
 };
 
 export default HeaderMenu;
