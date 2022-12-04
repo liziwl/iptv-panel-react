@@ -2,7 +2,7 @@ import React from "react";
 import {Layout, Space, Typography} from 'antd';
 import PageFooter from "./PageFooter";
 import HeaderMenu from "./HeaderMenu";
-import {default as Video} from "./NVideo";
+import {default as Video} from "./player/NVideo";
 import Logo from "./Logo";
 import "./LiveLayout.css";
 import axios from "axios";
