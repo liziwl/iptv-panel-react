@@ -445,7 +445,7 @@ class TVLayout extends React.Component {
                                             height={videoHeight}
                                         />
                                         {switchChannelBtn}
-                                        <span>频道在线人数：{online_uv}</span>
+                                        <div className="channel-online-uv">频道在线人数：{online_uv}</div>
                                     </Space>
                                 </Space>
 

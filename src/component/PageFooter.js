@@ -4,6 +4,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faGears, faHeart, faUser} from "@fortawesome/free-solid-svg-icons";
 import {faGithub} from "@fortawesome/free-brands-svg-icons";
 import {faCopyright} from "@fortawesome/free-regular-svg-icons";
+import "./PageFooter.css";
 import axios from "axios";
 
 const {Footer} = Layout;
