@@ -417,24 +417,46 @@ class TVLayout extends React.Component {
                                     <List
                                         id={"mobile-channel-list"}
                                         dataSource={this.state.channelsActive}
-                                        renderItem={item => (
-                                            <List.Item>
-                                                <Button type="text"
-                                                        style={{
-                                                            width: '100%',
-                                                            textAlign: 'left'
-                                                        }}
-                                                        onClick={() => {
-                                                            this.setState({
-                                                                url: this.urlFormat(item.vid),
-                                                                liveTitle: item.name
-                                                            });
-                                                            this.onCloseDrawer();
-                                                        }}
-                                                ><Link
-                                                    to={`/tv?category=${this.state.categoryActive}&vid=${item.vid}`}>{item.name}</Link></Button>
-                                            </List.Item>
-                                        )}
+                                        renderItem={item => {
+                                            function warpLink(linkComponent, onClickCallback, isOnAir) {
+                                                let bgColor = "";
+                                                if (isOnAir) {
+                                                    bgColor = "#CCCCCC";
+                                                }
+                                                return (
+                                                    <List.Item>
+                                                        <Button type="text"
+                                                            style={{
+                                                                width: '100%',
+                                                                textAlign: 'left',
+                                                                backgroundColor: bgColor
+                                                            }}
+                                                            onClick={onClickCallback}
+                                                        >{linkComponent}</Button>
+                                                    </List.Item>
+                                                );
+                                            }
+
+                                            const callback = () => {
+                                                this.setState({
+                                                    url: this.urlFormat(item.vid),
+                                                    liveTitle: item.name
+                                                });
+                                                this.onCloseDrawer();
+                                            };
+
+                                            if (this.props.searchParams.has("query")) {
+                                                const linkComponent = <Link
+                                                    to={`/tv?query=${this.props.searchParams.get("query")}&vid=${item.vid}`}>{item.name}</Link>;
+                                                const isOnAir = this.state.url === item.url;
+                                                return warpLink(linkComponent, callback, isOnAir);
+                                            } else {
+                                                const linkComponent = <Link
+                                                    to={`/tv?category=${this.state.categoryActive}&vid=${item.vid}`}>{item.name}</Link>;
+                                                const isOnAir = this.state.url === item.url;
+                                                return warpLink(linkComponent, callback, isOnAir);
+                                            }
+                                        }}
                                     />
                                 </Drawer>
                                 <Space size="large"
