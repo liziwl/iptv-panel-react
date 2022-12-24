@@ -297,16 +297,21 @@ class TVLayout extends React.Component {
                         bordered
                         dataSource={this.state.channelsActive}
                         renderItem={item => {
-                            function itemWarp(child, onClickCallback) {
+                            function warpLink(linkComponent, onClickCallback, isOnAir) {
+                                let bgColor = "";
+                                if (isOnAir) {
+                                    bgColor = "#CCCCCC";
+                                }
                                 return (
                                     <List.Item>
                                         <Button type="text"
-                                                style={{
-                                                    width: '100%',
-                                                    textAlign: 'left'
-                                                }}
-                                                onClick={onClickCallback}
-                                        >{child}</Button>
+                                            style={{
+                                                width: '100%',
+                                                textAlign: 'left',
+                                                backgroundColor: bgColor
+                                            }}
+                                            onClick={onClickCallback}
+                                        >{linkComponent}</Button>
                                     </List.Item>
                                 );
                             }
@@ -319,13 +324,15 @@ class TVLayout extends React.Component {
                             };
 
                             if (this.props.searchParams.has("query")) {
-                                const child = <Link
+                                const linkComponent = <Link
                                     to={`/tv?query=${this.props.searchParams.get("query")}&vid=${item.vid}`}>{item.name}</Link>;
-                                return itemWarp(child, callback);
+                                const isOnAir = this.state.liveTitle === item.name;
+                                return warpLink(linkComponent, callback, isOnAir);
                             } else {
-                                const child = <Link
+                                const linkComponent = <Link
                                     to={`/tv?category=${this.state.categoryActive}&vid=${item.vid}`}>{item.name}</Link>;
-                                return itemWarp(child, callback);
+                                const isOnAir = this.state.liveTitle === item.name;
+                                return warpLink(linkComponent, callback, isOnAir);
                             }
                         }}
                     />
