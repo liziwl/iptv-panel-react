@@ -326,12 +326,12 @@ class TVLayout extends React.Component {
                             if (this.props.searchParams.has("query")) {
                                 const linkComponent = <Link
                                     to={`/tv?query=${this.props.searchParams.get("query")}&vid=${item.vid}`}>{item.name}</Link>;
-                                const isOnAir = this.state.liveTitle === item.name;
+                                const isOnAir = this.state.url === item.url;
                                 return warpLink(linkComponent, callback, isOnAir);
                             } else {
                                 const linkComponent = <Link
                                     to={`/tv?category=${this.state.categoryActive}&vid=${item.vid}`}>{item.name}</Link>;
-                                const isOnAir = this.state.liveTitle === item.name;
+                                const isOnAir = this.state.url === item.url;
                                 return warpLink(linkComponent, callback, isOnAir);
                             }
                         }}
